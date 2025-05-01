@@ -1,10 +1,14 @@
+import CategoryCardAttraction from "./CategoryCardAttraction";
+
     export default function CategoryPage() {
         
-
-        ('https://app.ticketmaster.com/discovery/v2/events?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&locale=*')
+        
+        fetch('https://app.ticketmaster.com/discovery/v2/events?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&locale=*&city=oslo')
             .then(response => response.json())
             .then(data => console.log(data))
-            .catch(error => console.error('Skjedde en feil under lasting:', error));   return(
+            .catch(error => console.error('Skjedde en feil under lasting:', error))
+
+            return(
             <>
                 <h2>Filtrert søk</h2>
                 <section id="categoryPage-filter">
@@ -27,6 +31,11 @@
                 <section>
                     <p>Søk etter event, attraksjon eller spillested</p>
                     <input type="text" />
+                </section>
+                <section>
+                    <CategoryCardAttraction category="" />
+                    <CategoryCardAttraction category="" />
+                    <CategoryCardAttraction category="" />
                 </section>
             </>
         )
