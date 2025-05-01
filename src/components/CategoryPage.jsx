@@ -1,7 +1,10 @@
     export default function CategoryPage() {
+        
 
-
-        return(
+        ('https://app.ticketmaster.com/discovery/v2/events?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&locale=*')
+            .then(response => response.json())
+            .then(data => console.log(data))
+            .catch(error => console.error('Skjedde en feil under lasting:', error));   return(
             <>
                 <h2>Filtrert søk</h2>
                 <section id="categoryPage-filter">
