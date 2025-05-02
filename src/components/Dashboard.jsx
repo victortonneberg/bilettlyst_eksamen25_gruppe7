@@ -1,13 +1,34 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import "../assets/styles/Dashboard/Dashboard.scss"
+import { fetchEvents } from "../sanity/fetchEvents"
+import { fetchUsers } from "../sanity/fetchUsers"
 
 export default function Dashboard() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [events, setEvents] = useState([])
+  const [users, setUsers] = useState([])
 
   const handleSubmit = (e) => {
     e.preventDefault()
     setIsLoggedIn(true)
   }
+
+  const getEvents = async () => {
+    const data = await fetchEvents()
+    console.log("SanityEvents: ", data)
+    setEvents(data)
+  }
+
+  const getUsers = async () => {
+    const data = await fetchUsers()
+    console.log("SanityUsers: ", data)
+    setUsers(data)
+  }
+
+  useEffect(() => {
+    getEvents()
+    getUsers()
+  }, [])
 
   return (
     <>
