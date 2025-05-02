@@ -5,12 +5,18 @@ import CategoryCardAttraction from "./CategoryCardAttraction";
 export default function CategoryPage() {
     const { slug } = useParams();
     const [attractions, setAttractions] = useState([]);
-    const [city, setCity] = useState(""); 
-    const [segment, setSegment] = useState(slug); 
+    const [city, setCity] = useState("oslo"); 
+    const [segment] = useState(slug); 
 
+    
+const segmentMap = {
+    musikk: "Music",
+    sport: "Sports",
+    teater: "Theatre"
+}
    
-        const getAttraction = () => {
-        const apiUrl = `https://app.ticketmaster.com/discovery/v2/events?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&locale=*&city=${city}&segmentName=${segment}`;
+const getAttraction = () => {
+    const apiUrl = `https://app.ticketmaster.com/discovery/v2/events?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&city=${city}&classificationName=${segmentMap[slug] || slug}`;
         fetch(apiUrl)
         .then((response) => response.json())
         .then((data) => {
@@ -31,6 +37,7 @@ export default function CategoryPage() {
 useEffect(() => {
     getAttraction();
 }, [slug, city]); 
+
 
 const handleCityChange = (e) => {
     setCity(e.target.value);
@@ -68,7 +75,9 @@ const handleCityChange = (e) => {
                         <CategoryCardAttraction 
                         key={event.id}
                         segment={{
-                           
+                            name: event.name,
+                            date: event.dates?.start?.localDate,
+                            venue: event._embedded?.venues?.[0]?.name
                         }}
                         />
                     ))
