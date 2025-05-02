@@ -9,11 +9,7 @@ export default function CategoryPage() {
 
    
         const getAttraction = () => {
-            // https://app.ticketmaster.com/discovery/v2/events?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&attractionId=2&locale=*
-            // fetch('https://app.ticketmaster.com/discovery/v2/attractions?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&locale=*')
-            //     .then(response => response.json())
-            //     .then(data => console.log(data))
-            //     .catch(error => console.error('Skjedde en feil under lasting:', error));
+          
 
         const apiUrl = `https://app.ticketmaster.com/discovery/v2/events?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&locale=*&city=${city}&segmentName=${segment}`;
         fetch(apiUrl)
