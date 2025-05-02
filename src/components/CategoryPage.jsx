@@ -12,7 +12,7 @@ export default function CategoryPage() {
 const segmentMap = {
     musikk: "Music",
     sport: "Sports",
-    teater: "Theatre"
+    teater: "Arts & Theatre"
 }
    
 const getAttraction = () => {
@@ -59,7 +59,7 @@ const handleCityChange = (e) => {
                     <select name="By" id="city" onChange={handleCityChange} value={city}>
                         <option value="Oslo">Oslo</option>
                         <option value="Stockholm">Stockholm</option>
-                        <option value="København">København</option>
+                        <option value="Copenhagen">København</option>
                     </select>
                 </section>
                 <h2>Søk</h2>
@@ -67,7 +67,8 @@ const handleCityChange = (e) => {
                     <p>Søk etter event, attraksjon eller spillested</p>
                     <input type="text" />
                 </section>
-                <section id="categoryPage-attractions">
+                <section id="categoryPage-arrangementer">
+                    <h2>Arrangementer</h2>
                 {attractions.length > 0 ? (
                     attractions.map((event) => (
                         <CategoryCardAttraction 
