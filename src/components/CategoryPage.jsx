@@ -20,8 +20,6 @@ const getAttraction = () => {
         fetch(apiUrl)
         .then((response) => response.json())
         .then((data) => {
-            console.log("API Response:", data); // Logg hele API-responsen
-
             if (data?._embedded?.events) {
                 setAttractions(data._embedded.events);
             } else {
