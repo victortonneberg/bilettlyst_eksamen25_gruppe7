@@ -15,7 +15,7 @@ export default function CategoryPage() {
             //     .then(data => console.log(data))
             //     .catch(error => console.error('Skjedde en feil under lasting:', error));
 
-        const apiUrl = `https://app.ticketmaster.com/discovery/v2/attractions?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&keyword=${slug}&locale=*`;
+        const apiUrl = `https://app.ticketmaster.com/discovery/v2/events?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&locale=*&city=${city}&segmentName=${segment}`;
         fetch(apiUrl)
         .then((response) => response.json())
         .then((data) => setAttractions( [])) 

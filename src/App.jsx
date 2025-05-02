@@ -14,8 +14,8 @@ function App() {
     <>
       <Layout>
         <Routes>
-          <Route path=":slug" element={<CategoryPage />} />
           <Route path="/" element={<EventPage />} />
+          <Route path="/category/:slug" element={<CategoryPage />} />
         </Routes>
       </Layout>
     </>

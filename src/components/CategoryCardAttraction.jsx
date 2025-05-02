@@ -1,10 +1,10 @@
 import CategoryPage from "./CategoryPage";
 
-export default function CategoryCardAttraction({ category }) {
+export default function CategoryCardAttraction({ segment }) {
     return (
       <>
-      <img src={category.image} alt={category.name} />
-      <h3>{category.name}</h3>
+      <img src={segment.image} alt={segment.name} />
+      <h3>{segment.name}</h3>
       </>
     );
 }
