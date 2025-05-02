@@ -3,6 +3,7 @@ import { Routes, Route } from 'react-router-dom'
 import CategoryPage from './components/CategoryPage'
 import EventPage from './components/eventPage.jsx'
 import Layout from './components/Layout'
+import '../src/assets/styles/CategoryPage.scss'
 
 
 function App() {
