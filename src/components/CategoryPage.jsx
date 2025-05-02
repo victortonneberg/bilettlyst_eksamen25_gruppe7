@@ -68,8 +68,7 @@ const handleCityChange = (e) => {
                         <CategoryCardAttraction 
                         key={event.id}
                         segment={{
-                            image: event.images?.[0]?.url || "https://via.placeholder.com/150", // Håndter manglende bilde
-                            name: event.name || "Ukjent navn", // Håndter manglende navn
+                           
                         }}
                         />
                     ))
