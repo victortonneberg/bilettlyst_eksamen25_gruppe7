@@ -1,4 +1,4 @@
-import "../assets/styles/Dashboard/SanityUserCard.scss"
+import "../../assets/styles/Dashboard/SanityUserCard.scss"
 export default function SanityUserCard({ user }) {
   return (
     <article className="user-card">

@@ -2,8 +2,8 @@ import { useEffect, useState } from "react"
 import "../../assets/styles/Dashboard/Dashboard.scss"
 import { fetchEvents } from "../../sanity/fetchEvents"
 import { fetchUsers } from "../../sanity/fetchUsers"
-import SanityUserCard from "../SanityUserCard"
-import SanityEventCard from "../SanityEventCard"
+import SanityUserCard from "./SanityUserCard"
+import SanityEventCard from "./SanityEventCard"
 
 export default function Dashboard() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
