@@ -17,13 +17,13 @@ export default function Dashboard() {
 
   const getEvents = async () => {
     const data = await fetchEvents()
-    console.log("SanityEvents: ", data)
+    // console.log("SanityEvents: ", data)
     setEvents(data)
   }
 
   const getUsers = async () => {
     const data = await fetchUsers()
-    console.log("SanityUsers: ", data)
+    // console.log("SanityUsers: ", data)
     setUsers(data)
   }
 
