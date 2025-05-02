@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import "../assets/styles/Dashboard/Dashboard.scss"
 import { fetchEvents } from "../sanity/fetchEvents"
 import { fetchUsers } from "../sanity/fetchUsers"
+import SanityUserCard from "./SanityUserCard"
 
 export default function Dashboard() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
@@ -49,7 +50,14 @@ export default function Dashboard() {
           </form>
         </section>
       ) : (
-        <h1>Min side</h1>
+        <>
+          <h1>Min side</h1>
+          <section className="SanityUserCard">
+            {users?.map((user) => (
+              <SanityUserCard key={user._id} user={user} />
+            ))}
+          </section>
+        </>
       )}
     </>
   )
