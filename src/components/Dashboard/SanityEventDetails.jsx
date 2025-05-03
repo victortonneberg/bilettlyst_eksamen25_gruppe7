@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import { fetchSingleEvent } from "../../sanity/fetchSingleEvent"
 import { fetchUsers } from "../../sanity/fetchUsers"
+import "../../assets/styles/Dashboard/SanityEventDetails.scss"
 
 export default function SanityEventDetails() {
   const { id } = useParams()

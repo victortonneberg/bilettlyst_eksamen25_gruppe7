@@ -1,5 +1,4 @@
-import { Link } from "react-router-dom"
-
+import "../../assets/styles/Dashboard/SanityEventCard.scss"
 export default function SanityEventCard({ event }) {
   return (
     <article className="event-card">
