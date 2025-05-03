@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import CategoryCardAttraction from "./CategoryCardAttraction";
-
+import CategoryCardEvent from "./CategoryCardEvent";
 export default function CategoryPage() {
     const { slug } = useParams();
-    const [attractions, setAttractions] = useState([]);
+    const [events, setEvents] = useState([]);
     const [city, setCity] = useState("oslo"); 
     const [segment] = useState(slug); 
 
@@ -15,25 +15,25 @@ const segmentMap = {
     teater: "Arts & Theatre"
 }
    
-const getAttraction = () => {
+const getEvent = () => {
     const apiUrl = `https://app.ticketmaster.com/discovery/v2/events?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&city=${city}&classificationName=${segmentMap[slug] || slug}`;
         fetch(apiUrl)
         .then((response) => response.json())
         .then((data) => {
             if (data?._embedded?.events) {
-                setAttractions(data._embedded.events);
+                setEvents(data._embedded.events);
             } else {
-                setAttractions([]);
+                setEvents([]);
             }
         }) 
         .catch((error) => {
             console.log("Skjedde feil under lasting: ", error);
-            setAttractions([]);
+            setEvents([]);
         });
 };
 
 useEffect(() => {
-    getAttraction();
+    getEvent();
 }, [slug, city]); 
 
 
@@ -67,28 +67,28 @@ const handleCityChange = (e) => {
                     <p>Søk etter event, attraksjon eller spillested</p>
                     <input type="text" />
                 </section>
-                <section>
-                    {/* <EventCard/> */}
-                </section>
                 <section id="categoryPage-arrangementer">
+                    <h2>Attraksjoner</h2>
+                        <CategoryCardAttraction/>
+                </section>
+                <section>
                     <h2>Arrangementer</h2>
-                {attractions.length > 0 ? (
-                    attractions.map((event) => (
-                        <CategoryCardAttraction      
-                        key={event.id}
-                        segment={{
-                            name: event.name,
-                            image: event.images?.[0]?.url,
-                            date: event.dates?.start?.localDate, // Hent dato
-                            time: event.dates?.start?.localTime, // Hent tid
-                        }}
-                        />
+                {events.length > 0 ? (
+                    events.map((event) => (
+                    <CategoryCardEvent
+                     key={event.id}
+                     segment={{
+                         name: event.name,
+                         image: event.images?.[0]?.url,
+                         date: event.dates?.start?.localDate, // Hent dato
+                         time: event.dates?.start?.localTime, // Hent tid
+                     }}/>
                     ))
                 ) : (
                     <p>Ingen arrangementer funnet</p>
                 )}
-
                 </section>
+               
             </>
         );
     }
