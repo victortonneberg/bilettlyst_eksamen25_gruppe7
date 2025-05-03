@@ -15,6 +15,21 @@ export default function CategoryPage() {
         teater: { id: "KZFzniwnSyZfZ7v7na", name: "Arts & Theatre" }
     };
    
+
+    const getAttractions = () => {
+        const apiAttraction = ` https://app.ticketmaster.com/discovery/v2/events?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&locale=*&segmentName=${eventMap[slug]?.name || slug}`;
+        fetch(apiAttraction)
+            .then((response) => response.json())
+            .then((data) => {
+                console.log("Attractions data: ", data);
+                setAttractions(data._embedded?.events || []);
+            })
+            .catch((error) => {
+                console.log("Skjedde feil under lasting: ", error);
+                setAttractions([]);
+            });
+    };
+
 const getEvent = () => {
     const apiEvent = `https://app.ticketmaster.com/discovery/v2/events?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&city=${city}&classificationName=${eventMap[slug]?.name || slug}`;
         fetch(apiEvent)
@@ -28,33 +43,14 @@ const getEvent = () => {
         });
 };
 
-useEffect(() => {
-    getEvent();
-}, [slug, city]); 
-
+    useEffect(() => {
+        getEvent();
+        getAttractions(); 
+    }, [slug, city]);
 
 const handleCityChange = (e) => {
     setCity(e.target.value);
 };
-
-    const getAttractions = () => {
-        const apiAttraction = ` https://app.ticketmaster.com/discovery/v2/events?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&locale=*&segmentName=${eventMap[slug]?.id || slug}`;
-        fetch(apiAttraction)
-            .then((response) => response.json())
-            .then((data) => {
-                console.log("Attractions data: ", data);
-                setEvents(data._embedded?.events || []);
-            })
-            .catch((error) => {
-                console.log("Skjedde feil under lasting: ", error);
-                setEvents([]);
-            });
-    };
-
-
-    useEffect(() => {
-        getAttractions(); // Erstatter getEvent()
-    }, [slug]);
 
             return (
             <>
@@ -82,23 +78,22 @@ const handleCityChange = (e) => {
                     <input type="text" />
                 </section>
                 <section id="categoryPage-attraksjoner">
-            <h2>Artister/Attraksjoner</h2>
-            {attractions.length > 0 ? (
-                attractions.map(attraction => (
-                    <CategoryCardAttraction
-                        key={attraction.id}
-                        attraction={{
-                            name: attraction.name,
-                            image: attraction.images?.find(img => img.width > 300)?.url,
-                            genre: attraction.classifications?.[0]?.genre?.name
-                        }}
-                    />
-                ))
-            ) : (
-                <p>Ingen attraksjoner funnet</p>
-            )}
-        </section>
-                <section>
+                    <h2>Artister/Attraksjoner</h2>
+                    {attractions.length > 0 ? (
+                        attractions.map(attraction => (
+                            <CategoryCardAttraction
+                                key={attraction.id}
+                                attraction={{
+                                    name: attraction.name,
+                                    image: attraction.images?.[0]?.url,
+                                }}
+                            />
+                        ))
+                    ) : (
+                        <p>Ingen attraksjoner funnet</p>
+                    )}
+                </section>
+                <section id="categoryPage-arrangementer">
                     <h2>Arrangementer</h2>
                 {events.length > 0 ? (
                     events.map((event) => (

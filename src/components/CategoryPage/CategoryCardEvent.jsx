@@ -3,7 +3,7 @@ export default function CategoryCardEvent({ event }) {
     const formattedTime = event.time ? new Date(`1970-01-01T${event.time}`).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : "Ukjent tid";
     
     return (
-        <article className="categoryCardEvent">
+        <article className="eventCard">
             <img src={event.image} alt={event.name} />
             <h3>{event.name}</h3>
             <p>Dato: {formattedDate}</p>
