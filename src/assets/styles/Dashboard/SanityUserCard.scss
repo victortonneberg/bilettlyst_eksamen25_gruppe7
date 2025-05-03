@@ -1,0 +1,7 @@
+.user-card img {
+  width: 100px; // juster etter behov
+  height: 100px;
+  object-fit: cover; // klipper bildet hvis det ikke passer
+  border-radius: 50%; // gjør det rundt
+  border: 2px solid #ccc;
+}
