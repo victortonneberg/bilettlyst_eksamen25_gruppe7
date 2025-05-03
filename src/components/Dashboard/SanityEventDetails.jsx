@@ -5,6 +5,7 @@ import { fetchSingleEvent } from "../../sanity/fetchSingleEvent"
 export default function SanityEventDetails() {
   const { id } = useParams()
   const [event, setEvent] = useState(null)
+  const [ticketmasterData, setTicketmasterData] = useState(null)
 
   useEffect(() => {
     console.log("apiId fra URL", id)
@@ -15,6 +16,15 @@ export default function SanityEventDetails() {
       setEvent(data)
     }
     getSingleEvent()
+  }, [id])
+
+  useEffect(() => {
+    fetch(
+      `https://app.ticketmaster.com/discovery/v2/events/${id}?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&locale=*`
+    )
+      .then((response) => response.json())
+      .then((data) => console.log("fetchAPI", data))
+      .catch((error) => console.log("Feil under fetch fra TM: ", error))
   }, [id])
 
   if (!event) {
