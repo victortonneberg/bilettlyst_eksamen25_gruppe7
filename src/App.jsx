@@ -12,10 +12,7 @@ function App() {
       <Layout>
         <Routes>
           <Route path="/dashboard" element={<Dashboard />} />
-          <Route
-            path="/dashboard/sanity-event/:id"
-            element={<SanityEventDetails />}
-          />
+          <Route path="/sanity-event/:id" element={<SanityEventDetails />} />
           <Route path="/" element={<EventPage />} />
           <Route path="/category/:slug" element={<CategoryPage />} />
         </Routes>

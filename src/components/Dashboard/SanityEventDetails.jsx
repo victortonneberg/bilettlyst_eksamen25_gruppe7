@@ -18,7 +18,7 @@ export default function SanityEventDetails() {
   }, [id])
 
   if (!event) {
-    return <p>Laster data...</p>
+    return <p>Arrangementet finnes ikke....</p>
   }
 
   return (
