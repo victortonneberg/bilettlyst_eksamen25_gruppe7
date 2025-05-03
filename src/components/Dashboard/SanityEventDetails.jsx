@@ -39,14 +39,11 @@ export default function SanityEventDetails() {
   return (
     <>
       <h1>{event.title}</h1>
-      <p>{event.category}</p>
-
       <section className="date-place">
         <h2>Dato og sted</h2>
-        <p>{ticketmasterData?.dates?.start?.localDate}</p>
-        <p>{ticketmasterData?._embedded?.venues?.[0].name}</p>
+        <p>Dato: {ticketmasterData?.dates?.start?.localDate}</p>
+        <p>Sted: {ticketmasterData?._embedded?.venues?.[0].name}</p>
       </section>
-
       <section className="genreEvent">
         <h2>Sjanger</h2>
         {ticketmasterData?.classifications?.map((item, index) => (
