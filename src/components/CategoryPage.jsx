@@ -67,15 +67,20 @@ const handleCityChange = (e) => {
                     <p>Søk etter event, attraksjon eller spillested</p>
                     <input type="text" />
                 </section>
+                <section>
+                    {/* <EventCard/> */}
+                </section>
                 <section id="categoryPage-arrangementer">
                     <h2>Arrangementer</h2>
                 {attractions.length > 0 ? (
                     attractions.map((event) => (
-                        <CategoryCardAttraction 
+                        <CategoryCardAttraction      
                         key={event.id}
                         segment={{
                             name: event.name,
-                            image: event.images?.[0]?.url
+                            image: event.images?.[0]?.url,
+                            date: event.dates?.start?.localDate, // Hent dato
+                            time: event.dates?.start?.localTime, // Hent tid
                         }}
                         />
                     ))
