@@ -7,24 +7,26 @@ export default function SanityEventDetails() {
   const [event, setEvent] = useState(null)
   const [ticketmasterData, setTicketmasterData] = useState(null)
 
-  useEffect(() => {
-    console.log("apiId fra URL", id)
+  const getSanityEvent = () => {
+    fetchSingleEvent(id)
+      .then(setEvent)
+      .catch((error) =>
+        console.log("Feil ved henting av event fra Sanity: ", error)
+      )
+  }
 
-    async function getSingleEvent() {
-      const data = await fetchSingleEvent(id)
-      console.log(data)
-      setEvent(data)
-    }
-    getSingleEvent()
-  }, [id])
-
-  useEffect(() => {
+  const getTicketmasterData = () => {
     fetch(
       `https://app.ticketmaster.com/discovery/v2/events/${id}?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&locale=*`
     )
       .then((response) => response.json())
       .then((data) => console.log("fetchAPI", data))
       .catch((error) => console.log("Feil under fetch fra TM: ", error))
+  }
+
+  useEffect(() => {
+    getSanityEvent()
+    getTicketmasterData()
   }, [id])
 
   if (!event) {
