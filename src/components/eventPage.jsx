@@ -1,18 +1,26 @@
 import React, { useEffect, useState } from 'react';
 
-export default function EventPage() {
-
+export default function eventPage() {
     const [results, setResults] = useState([]);
-const getData = async () => {
-    fetch('https://app.ticketmaster.com/discovery/v2/events?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&locale=*')
-    .then((response) => response.json())
-    .then((data) => setResults())// Må finne riktig data her.... Inni setResults(....her....)
-    .catch((error) => 
-        console.log("Feil Under Fetching data: ", error)
-)  
-};
 
-
+    const getData = async () => {
+        fetch('https://app.ticketmaster.com/discovery/v2/events.json?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq') 
+        //https://app.ticketmaster.com/discovery/v2/events.json?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&countryCode=NO..... Norge
+        //https://app.ticketmaster.com/discovery/v2/events.json?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq .....USA
+          .then((response) => response.json())
+          .then((data) => {
+            console.log(data);
+    
+            if (data._embedded && data._embedded.events) {
+              setResults(data._embedded.events);
+            } else {
+              console.log("Ingen events funnet");
+            }
+          })
+          .catch((error) => {
+            console.log("Feil ved henting av data: ", error);
+          });
+      };
 useEffect(() => {
     getData();
 }, []);
@@ -34,11 +42,21 @@ useEffect(() => {
                 </ul>
             </nav>
             <p>Følg oss på sosiale medier:</p>
+            <h3>Festivalpass:</h3>
         <section>
-
+            {results.length > 0 ? (
+                <ul>
+                    {results.map((event) => (
+                        <li key={event.id}>{event.name}</li>
+                    ))}
+                </ul>
+            ) : (
+                <p>Ingen events funnet</p>
+            )}
         </section>
 
       
         </>
     )
+    
 }
