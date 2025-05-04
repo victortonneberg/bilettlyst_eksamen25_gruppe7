@@ -22,8 +22,8 @@ export default function CategoryPage() {
     };
 
     const getAttractions = () => {
-        const keyword = slug || ""; // Use slug as the keyword
-        const segmentId = eventMap[slug]?.id || ""; // Use the segmentId from eventMap
+        const keyword = slug || ""; 
+        const segmentId = eventMap[slug]?.id || ""; 
         const apiAttraction = `https://app.ticketmaster.com/discovery/v2/attractions?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&keyword=${keyword}&locale=*&segmentId=${segmentId}`;
         
         fetch(apiAttraction)
