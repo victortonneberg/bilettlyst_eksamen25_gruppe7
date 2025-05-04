@@ -1,4 +1,3 @@
-// import "./App.css"
 import { Routes, Route } from "react-router-dom"
 import CategoryPage from "./components/CategoryPage/CategoryPage"
 import EventPage from "./components/EventPage/eventPage"
