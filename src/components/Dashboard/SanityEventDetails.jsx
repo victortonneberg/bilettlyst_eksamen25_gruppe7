@@ -58,7 +58,7 @@ export default function SanityEventDetails() {
 
   return (
     <>
-      <h1>{event.title}</h1>
+      <h1 className="eventTitle">{event.title}</h1>
       <section className="event-details">
         <section className="date-place">
           <h2>Dato og sted</h2>
@@ -72,7 +72,7 @@ export default function SanityEventDetails() {
           ))}
         </section>
         <section className="inWishlist">
-          <h2>Andre med dette arrangementet i ønskelisten</h2>
+          <h2>Brukere med dette arrangementet i ønskelisten</h2>
           <ul>
             {addedInWishlist.map((user) => (
               <li key={user._id}>

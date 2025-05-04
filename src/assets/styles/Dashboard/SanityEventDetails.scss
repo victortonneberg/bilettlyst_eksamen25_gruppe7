@@ -35,3 +35,12 @@
     }
   }
 }
+
+@media (min-width: 768px) {
+  .date-place,
+  .genreEvent,
+  .inWishlist,
+  .eventTitle {
+    margin-left: 1.5rem;
+  }
+}
