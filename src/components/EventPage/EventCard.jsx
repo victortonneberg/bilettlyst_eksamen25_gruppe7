@@ -1,14 +1,22 @@
-export default function EventCard({ id, image, name, dates, location }) {
+import { Link } from "react-router-dom";
+
+export default function EventCard({ id, image, name, dates, time, location, info, url }) {
     return(
         <>
-            <article key={id} >
-                <img src={image} alt={name} />
+        <article>
+                <img src={image} alt={name} /> 
                 <h4>{name}</h4>
-                <p>{dates}</p>
-                <p>{location}</p>
-                <button>kjøp</button>
-                <button>Legg til i ønskeliste</button>
-            </article>
+                <p>Dato: {dates}</p>
+                <p>Tid: {time}</p>
+                <p>Sted: {location}</p>
+                <p>Info: {info}</p>
+                <p>URL:????? {}</p>
+            {url && (
+            <a href={url} target="_blank">Kjøp billetter</a>
+        )}
+            <button>Legg til i ønskeliste</button>   
+        </article>
         </>
     )
 }
+

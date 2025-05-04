@@ -1,7 +1,7 @@
 import './App.css'
 import { Routes, Route } from 'react-router-dom'
 import CategoryPage from './components/CategoryPage/CategoryPage'
-import EventPage from './components/EventPage/eventPage'
+import EventPage from './components/EventPage/EventPage'
 import Layout from './components/Layout'
 // import Dashboard from './components/Dashboard/Dashboard'
 import '../src/assets/styles/CategoryPage.scss'
@@ -14,7 +14,8 @@ function App() {
           {/* <Route path="/dashboard" element={<Dashboard />} /> */}
           <Route path="/" element={<EventPage />} />
           <Route path="/category/:slug" element={<CategoryPage />} />
-          <Route parth="/category/:slug/:id" element={<CategoryPage />} />
+          <Route path="/category/:slug/:id" element={<CategoryPage />} />
+          <Route path="/event/:id" element={<EventPage />} />
         </Routes>
       </Layout>
     </>
