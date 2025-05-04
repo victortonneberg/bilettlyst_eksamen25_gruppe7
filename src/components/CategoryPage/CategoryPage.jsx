@@ -50,16 +50,19 @@ const getEvent = () => {
         });
 };
 
-const getVenue = (city) => {
-    const apiCity = cityMap[city] || city;
-    const apiVenue = `https://app.ticketmaster.com/discovery/v2/venues?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&locale=*&city=${city}`;
-    fetch(apiVenue)
+
+
+const getVenue = () => {
+    const cityName = cityMap[city]?.name || city; 
+    const countryCode = cityMap[city]?.countryCode || ""; 
+    const apiVenue = `https://app.ticketmaster.com/discovery/v2/venues?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&keyword=${cityName}&locale=*&countryCode=${countryCode}`;
+        fetch(apiVenue)
         .then((response) => response.json())
         .then((data) => {
             setVenue(data._embedded?.venues || []); 
         })
         .catch((error) => {
-            console.log("Skjedde feil under lasting: ", error);
+            console.error("Feil ved henting av spillesteder:", error);
             setVenue([]); 
         });
 };
@@ -67,7 +70,7 @@ const getVenue = (city) => {
     useEffect(() => {
         getEvent();
         getAttractions(); 
-        getVenue(city);
+        getVenue();
     }, [slug, city]);
 
     const handleCityChange = (e) => {
