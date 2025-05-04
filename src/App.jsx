@@ -6,6 +6,7 @@ import Layout from './components/Layout'
 import '../src/assets/styles/CategoryPage.scss'
 
 
+
 function App() {
 
   return (
@@ -13,8 +14,9 @@ function App() {
     <>
       <Layout>
         <Routes>
-          <Route path="/" element={<EventPage />} />
+          <Route path="/" element={<EventPage />} /> 
           <Route path="/category/:slug" element={<CategoryPage />} />
+          <Route parth="/category/:slug/:id" element={<CategoryPage />} />
         </Routes>
       </Layout>
     </>
