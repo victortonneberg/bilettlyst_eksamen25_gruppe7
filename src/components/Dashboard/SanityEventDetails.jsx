@@ -59,31 +59,29 @@ export default function SanityEventDetails() {
   return (
     <>
       <h1>{event.title}</h1>
-      <section className="date-place">
-        <h2>Dato og sted</h2>
-        <p>Dato: {ticketmasterData?.dates?.start?.localDate}</p>
-        <p>Sted: {ticketmasterData?._embedded?.venues?.[0].name}</p>
-      </section>
-      <section className="genreEvent">
-        <h2>Sjanger</h2>
-        {ticketmasterData?.classifications?.map((item, index) => (
-          <p key={index}>{item.segment?.name}</p>
-        ))}
-      </section>
-      <section className="inWishlist">
-        <h2>Andre med dette arrangementet i ønskelisten</h2>
-        <ul>
-          {addedInWishlist.map((user) => (
-            <li key={user._id}>
-              <img
-                src={user.imageUrl}
-                alt={user.name}
-                width="100" /*KORRIGER I SCSS!*/
-              ></img>
-              <p>{user.name}</p>
-            </li>
+      <section className="event-details">
+        <section className="date-place">
+          <h2>Dato og sted</h2>
+          <p>Dato: {ticketmasterData?.dates?.start?.localDate}</p>
+          <p>Sted: {ticketmasterData?._embedded?.venues?.[0].name}</p>
+        </section>
+        <section className="genreEvent">
+          <h2>Sjanger</h2>
+          {ticketmasterData?.classifications?.map((item, index) => (
+            <p key={index}>{item.segment?.name}</p>
           ))}
-        </ul>
+        </section>
+        <section className="inWishlist">
+          <h2>Andre med dette arrangementet i ønskelisten</h2>
+          <ul>
+            {addedInWishlist.map((user) => (
+              <li key={user._id}>
+                <img src={user.imageUrl} alt={user.name}></img>
+                <p>{user.name}</p>
+              </li>
+            ))}
+          </ul>
+        </section>
       </section>
     </>
   )

@@ -1,7 +1,76 @@
-.user-card img {
-  width: 100px;
-  height: 100px;
-  object-fit: cover;
-  border-radius: 50%;
-  border: 2px solid #ccc;
+.min-side {
+  margin-left: 1rem;
+}
+
+.all-users {
+  margin-left: 1rem;
+  font-size: 1.4rem;
+}
+
+.SanityUserCard {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.user-card {
+  border: solid black 1px;
+  margin: 0 auto 1rem auto;
+  // min-width: 20%;
+  // width: 20rem;
+  width: calc(100vw - 3rem);
+  max-width: 30rem;
+  min-width: 15rem;
+  padding: 1rem;
+
+  h3 {
+    font-size: 1.4rem;
+    margin-top: 0.3rem;
+  }
+  img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 2px solid #ccc;
+  }
+
+  p {
+    font-weight: bold;
+    font-size: 1.1rem;
+  }
+
+  ul {
+    padding: 0rem;
+    list-style: none;
+
+    li {
+      padding-bottom: 0.7rem;
+    }
+
+    a {
+      display: block;
+      text-decoration: none;
+      color: #333;
+      background-color: #f0f0f0;
+      padding: 0.5rem;
+      border-radius: 0.5rem;
+      font-size: 1rem;
+    }
+
+    a:hover {
+      background-color: #ddd;
+    }
+  }
+}
+
+@media (min-width: 768px) {
+  .SanityUserCard {
+    gap: 5%;
+    justify-content: start;
+  }
+
+  .user-card {
+    margin: 0.5rem 0 0.5rem 0;
+  }
 }
