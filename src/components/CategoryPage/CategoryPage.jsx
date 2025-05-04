@@ -2,11 +2,13 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import CategoryCardAttraction from "./CategoryCardAttraction";
 import CategoryCardEvent from "./CategoryCardEvent";
+import CategoryCardVenue from "./CategoryCardVenue";
 export default function CategoryPage() {
     const { slug } = useParams();
     const [events, setEvents] = useState([]);
     const [attractions, setAttractions] = useState([]);
-    const [city, setCity] = useState("oslo"); 
+    const [venue, setVenue] = useState([]);
+    const [city, setCity] = useState(""); 
     // Removed unused 'event' state
 
     const eventMap = {
@@ -43,9 +45,23 @@ const getEvent = () => {
         });
 };
 
+const getVenue = (city) => {
+    const apiUrl = `https://app.ticketmaster.com/discovery/v2/venues?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&locale=*&city=${city}`;
+    fetch(apiUrl)
+        .then((response) => response.json())
+        .then((data) => {
+            setVenue(data._embedded?.venues || []); 
+        })
+        .catch((error) => {
+            console.log("Skjedde feil under lasting: ", error);
+            setVenue([]); 
+        });
+};
+
     useEffect(() => {
         getEvent();
         getAttractions(); 
+        getVenue(city);
     }, [slug, city]);
 
 const handleCityChange = (e) => {
@@ -102,13 +118,28 @@ const handleCityChange = (e) => {
                      event={{
                          name: event.name,
                          image: event.images?.[0]?.url,
-                         date: event.dates?.start?.localDate, // Hent dato
-                         time: event.dates?.start?.localTime, // Hent tid
+                         date: event.dates?.start?.localDate, 
+                         time: event.dates?.start?.localTime,
                      }}/>
                     ))
                 ) : (
                     <p>Ingen arrangementer funnet</p>
                 )}
+                </section>
+                <section>
+                    <h2>Spillesteder</h2>
+                    {venue.length > 0 ? (
+                        venue.map((venue) => (
+                            <article className="venueCard" key={venue.id}>
+                                <img src={venue.images?.[0]?.url} alt={venue.name} />
+                                <h3>{venue.name}</h3>
+                                <p>{venue.address?.line1 || "Adresse ikke tilgjengelig"}</p>
+                                <p>{venue.city?.name || "By ikke tilgjengelig"}</p>
+                            </article>
+                        ))
+                    ) : (
+                        <p>Ingen spillesteder funnet</p>
+                    )}
                 </section>
                
             </>
