@@ -4,6 +4,7 @@ import EventPage from "./components/EventPage/eventPage"
 import Layout from "./components/Layout"
 import Dashboard from "./components/Dashboard/Dashboard"
 import "./assets/styles/style.scss"
+import SanityEventDetails from "./components/Dashboard/SanityEventDetails"
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
       <Layout>
         <Routes>
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/sanity-event/:id" element={<SanityEventDetails />} />
           <Route path="/" element={<EventPage />} />
           <Route path="/category/:slug" element={<CategoryPage />} />
         </Routes>
