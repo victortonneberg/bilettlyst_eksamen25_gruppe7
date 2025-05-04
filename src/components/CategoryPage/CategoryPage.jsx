@@ -16,21 +16,23 @@ export default function CategoryPage() {
         teater: { id: "KZFzniwnSyZfZ7v7na", name: "Arts & Theatre" }
     };
     const cityMap = {
-        Oslo: "Oslo",
-        Stockholm: "Stockholm",
-        København: "Copenhagen",
+        Oslo: { name: "Oslo", countryCode: "NO" },
+        Stockholm: { name: "Stockholm", countryCode: "SE" },
+        København: { name: "Copenhagen", countryCode: "DK" },
     };
 
     const getAttractions = () => {
-        const apiAttraction = `https://app.ticketmaster.com/discovery/v2/attractions?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&locale=*&classificationName=${eventMap[slug]?.name || slug}`;
+        const keyword = slug || ""; // Use slug as the keyword
+        const segmentId = eventMap[slug]?.id || ""; // Use the segmentId from eventMap
+        const apiAttraction = `https://app.ticketmaster.com/discovery/v2/attractions?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&keyword=${keyword}&locale=*&segmentId=${segmentId}`;
+        
         fetch(apiAttraction)
             .then((response) => response.json())
             .then((data) => {
-                console.log("Attractions data: ", data);
                 setAttractions(data._embedded?.attractions || []);
             })
             .catch((error) => {
-                console.log("Skjedde feil under lasting: ", error);
+                console.error("Feil ved henting av attraksjoner:", error);
                 setAttractions([]);
             });
     };
