@@ -1,11 +1,11 @@
 
-#categoryPage-arrangementer {
+#categoryPage-arrangementer, #categoryPage-attraksjoner {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
 }
 
-.categoryCardAttraction {
+.attractionCard, .eventCard {
     display: flex;
     flex-direction: column;
     height: 20rem;
