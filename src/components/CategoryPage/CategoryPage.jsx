@@ -22,7 +22,7 @@ export default function CategoryPage() {
     };
 
     const getAttractions = () => {
-        const keyword = slug || ""; 
+        const keyword = eventMap.name || ""; 
         const segmentId = eventMap[slug]?.id || ""; 
         const apiAttraction = `https://app.ticketmaster.com/discovery/v2/attractions?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&keyword=${keyword}&locale=*&segmentId=${segmentId}`;
         
@@ -135,21 +135,24 @@ const getVenue = (city) => {
                     <p>Ingen arrangementer funnet</p>
                 )}
                 </section>
-                <section id="categoryPage-spillesteder">
-                    <h2>Spillesteder</h2>
-                    {venue.length > 0 ? (
-                        venue.map((venue) => (
-                            <article className="venueCard" key={venue.id}>
-                                <img src={venue.images?.[0]?.url} alt={venue.name} />
-                                <h3>{venue.name}</h3>
-                                <p>{venue.address?.line1 || "Adresse ikke tilgjengelig"}</p>
-                                <p>{venue.city?.name || "By ikke tilgjengelig"}</p>
-                            </article>
-                        ))
-                    ) : (
-                        <p>Ingen spillesteder funnet</p>
-                    )}  
-                </section>
+                    <section id="categoryPage-spillesteder">
+                        <h2>Spillesteder</h2>
+                        {venue.length > 0 ? (
+                            venue.map((v) => (
+                                <CategoryCardVenue
+                                    key={v.id}
+                                    venue={{
+                                        name: v.name,
+                                        address: v.address?.line1,
+                                        city: v.city?.name,
+                                        image: v.images?.[0]?.url,
+                                    }}
+                                />
+                            ))
+                        ) : (
+                            <p>Ingen spillesteder funnet</p>
+                        )}
+                    </section>
                
             </>
         );
