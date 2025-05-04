@@ -22,10 +22,8 @@ export default function CategoryPage() {
     };
 
     const getAttractions = () => {
-        const keyword = eventMap.name || ""; 
-        const segmentId = eventMap[slug]?.id || ""; 
-        const apiAttraction = `https://app.ticketmaster.com/discovery/v2/attractions?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&keyword=${keyword}&locale=*&segmentId=${segmentId}`;
-        
+        const cityInfo = cityMap[city] || { name: city, countryCode: "NO" };
+                const apiAttraction = `https://app.ticketmaster.com/discovery/v2/attractions?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&classificationName=${eventMap[slug]?.name || slug}&countryCode=${cityInfo.countryCode}`;
         fetch(apiAttraction)
             .then((response) => response.json())
             .then((data) => {
@@ -36,6 +34,7 @@ export default function CategoryPage() {
                 setAttractions([]);
             });
     };
+    
 
 const getEvent = () => {
     const apiEvent = `https://app.ticketmaster.com/discovery/v2/events?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&city=${city}&classificationName=${eventMap[slug]?.name || slug}`;
@@ -51,21 +50,24 @@ const getEvent = () => {
 };
 
 
-
 const getVenue = () => {
-    const cityName = cityMap[city]?.name || city; 
-    const countryCode = cityMap[city]?.countryCode || ""; 
-    const apiVenue = `https://app.ticketmaster.com/discovery/v2/venues?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&keyword=${cityName}&locale=*&countryCode=${countryCode}`;
-        fetch(apiVenue)
+    const cityInfo = cityMap[city] || { name: city, countryCode: "NO" };
+    const apiVenue = `https://app.ticketmaster.com/discovery/v2/venues?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&city=${cityInfo.name}&countryCode=${cityInfo.countryCode}&locale=*`;
+    fetch(apiVenue)
         .then((response) => response.json())
         .then((data) => {
-            setVenue(data._embedded?.venues || []); 
+            const venues = data._embedded?.venues || [];
+            const filteredVenues = venues.filter((venue) =>
+                venue.city?.name.toLowerCase() === cityInfo.name.toLowerCase()
+            );
+            setVenue(filteredVenues); 
         })
         .catch((error) => {
-            console.error("Feil ved henting av spillesteder:", error);
+            console.error("Skjedde feil under lasting:", error);
             setVenue([]); 
         });
 };
+
 
     useEffect(() => {
         getEvent();
@@ -75,7 +77,6 @@ const getVenue = () => {
 
     const handleCityChange = (e) => {
         const selectedCity = e.target.value;
-        console.log("Selected city:", selectedCity);
         setCity(selectedCity);
     };
 
@@ -96,12 +97,9 @@ const getVenue = () => {
                     <select name="By" id="city" onChange={handleCityChange} value={city}>
                         <option value="Oslo">Oslo</option>
                         <option value="Stockholm">Stockholm</option>
-                        <option value="Copenhagen">København</option>
+                        <option value="København">København</option>
                     </select>
                     <button type="submit">Søk</button>
-                </section>
-                <h3>Søk</h3>
-                <section>
                     <p>Søk etter event, attraksjon eller spillested</p>
                     <input type="text" />
                 </section>
