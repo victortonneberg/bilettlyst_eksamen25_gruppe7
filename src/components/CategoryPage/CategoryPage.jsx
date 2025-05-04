@@ -8,23 +8,26 @@ export default function CategoryPage() {
     const [events, setEvents] = useState([]);
     const [attractions, setAttractions] = useState([]);
     const [venue, setVenue] = useState([]);
-    const [city, setCity] = useState(""); 
-    // Removed unused 'event' state
+    const [city, setCity] = useState("Oslo"); 
 
     const eventMap = {
         musikk: { id: "KZFzniwnSyZfZ7v7nJ", name: "Music" },
         sport: { id: "KZFzniwnSyZfZ7v7nE", name: "Sports" },
         teater: { id: "KZFzniwnSyZfZ7v7na", name: "Arts & Theatre" }
     };
-   
+    const cityMap = {
+        Oslo: "Oslo",
+        Stockholm: "Stockholm",
+        København: "Copenhagen",
+    };
 
     const getAttractions = () => {
-        const apiAttraction = ` https://app.ticketmaster.com/discovery/v2/events?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&locale=*&segmentName=${eventMap[slug]?.name || slug}`;
+        const apiAttraction = `https://app.ticketmaster.com/discovery/v2/attractions?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&locale=*&classificationName=${eventMap[slug]?.name || slug}`;
         fetch(apiAttraction)
             .then((response) => response.json())
             .then((data) => {
                 console.log("Attractions data: ", data);
-                setAttractions(data._embedded?.events || []);
+                setAttractions(data._embedded?.attractions || []);
             })
             .catch((error) => {
                 console.log("Skjedde feil under lasting: ", error);
@@ -46,8 +49,9 @@ const getEvent = () => {
 };
 
 const getVenue = (city) => {
-    const apiUrl = `https://app.ticketmaster.com/discovery/v2/venues?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&locale=*&city=${city}`;
-    fetch(apiUrl)
+    const apiCity = cityMap[city] || city;
+    const apiVenue = `https://app.ticketmaster.com/discovery/v2/venues?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&locale=*&city=${city}`;
+    fetch(apiVenue)
         .then((response) => response.json())
         .then((data) => {
             setVenue(data._embedded?.venues || []); 
@@ -64,9 +68,11 @@ const getVenue = (city) => {
         getVenue(city);
     }, [slug, city]);
 
-const handleCityChange = (e) => {
-    setCity(e.target.value);
-};
+    const handleCityChange = (e) => {
+        const selectedCity = e.target.value;
+        console.log("Selected city:", selectedCity);
+        setCity(selectedCity);
+    };
 
             return (
             <>
@@ -87,6 +93,7 @@ const handleCityChange = (e) => {
                         <option value="Stockholm">Stockholm</option>
                         <option value="Copenhagen">København</option>
                     </select>
+                    <button type="submit">Søk</button>
                 </section>
                 <h3>Søk</h3>
                 <section>
@@ -126,7 +133,7 @@ const handleCityChange = (e) => {
                     <p>Ingen arrangementer funnet</p>
                 )}
                 </section>
-                <section>
+                <section id="categoryPage-spillesteder">
                     <h2>Spillesteder</h2>
                     {venue.length > 0 ? (
                         venue.map((venue) => (
@@ -139,7 +146,7 @@ const handleCityChange = (e) => {
                         ))
                     ) : (
                         <p>Ingen spillesteder funnet</p>
-                    )}
+                    )}  
                 </section>
                
             </>

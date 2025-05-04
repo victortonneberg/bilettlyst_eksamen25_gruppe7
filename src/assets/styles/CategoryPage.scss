@@ -1,11 +1,11 @@
 
-#categoryPage-arrangementer, #categoryPage-attraksjoner {
+#categoryPage-arrangementer, #categoryPage-attraksjoner, #categoryPage-spillesteder {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
 }
 
-.attractionCard, .eventCard {
+.attractionCard, .eventCard, .venueCard {
     display: flex;
     flex-direction: column;
     height: 20rem;
