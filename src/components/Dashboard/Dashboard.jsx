@@ -17,13 +17,13 @@ export default function Dashboard() {
 
   const getEvents = async () => {
     const data = await fetchEvents()
-    console.log("SanityEvents: ", data)
+    // console.log("SanityEvents: ", data)
     setEvents(data)
   }
 
   const getUsers = async () => {
     const data = await fetchUsers()
-    console.log("SanityUsers: ", data)
+    // console.log("SanityUsers: ", data)
     setUsers(data)
   }
 
@@ -52,17 +52,17 @@ export default function Dashboard() {
         </section>
       ) : (
         <>
-          <h1>Min side</h1>
-          <section className="SanityEventCard">
-            <h2>Alle events</h2>
-            {events?.map((event) => (
-              <SanityEventCard key={event._id} event={event} />
-            ))}
-          </section>
+          <h1 className="min-side">Min side</h1>
+          <h2 className="all-users">Alle brukere</h2>
           <section className="SanityUserCard">
-            <h2>Alle brukere</h2>
             {users?.map((user) => (
               <SanityUserCard key={user._id} user={user} />
+            ))}
+          </section>
+          <h2 className="all-events">Alle events</h2>
+          <section className="SanityEventCard">
+            {events?.map((event) => (
+              <SanityEventCard key={event._id} event={event} />
             ))}
           </section>
         </>
