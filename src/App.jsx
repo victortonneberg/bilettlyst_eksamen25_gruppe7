@@ -4,7 +4,6 @@ import CategoryPage from "./components/CategoryPage/CategoryPage"
 import EventPage from "./components/EventPage/eventPage"
 import Layout from "./components/Layout"
 import Dashboard from "./components/Dashboard/Dashboard"
-import "./assets/styles/style.scss"
 
 function App() {
   return (
