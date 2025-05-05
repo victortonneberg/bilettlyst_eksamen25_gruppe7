@@ -28,11 +28,7 @@ export default function CategoryPage() {
         fetch(apiAttraction)
             .then((response) => response.json())
             .then((data) => {
-                if (data._embedded && data._embedded.attractions) {
-                    setAttractions(data._embedded.attractions);
-                } else {
-                    setAttractions([]);
-                }
+                setAttractions(data._embedded?.attractions || []);
             })
             .catch((error) => {
                 console.error("Feil ved henting av attraksjoner:", error);
@@ -42,29 +38,34 @@ export default function CategoryPage() {
     const getEvent = async () => {
         const cityInfo = cityMap[city] || { name: city, countryCode: "" };
         const apiEvent = `https://app.ticketmaster.com/discovery/v2/events?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&city=${cityInfo.name}&segmentId=${eventMap[slug]?.id || slug}&countryCode=${cityInfo.countryCode}`;
-        try {
-            const response = await fetch(apiEvent);
-            const data = await response.json();
-            console.log("Data fra API:", data);
-            setEvents(data._embedded?.events || []);
-        } catch (error) {
-            console.log("Skjedde feil under lasting: ", error);
-            setEvents([]);
-        }
+    
+        await fetch(apiEvent)
+            .then((response) => response.json())
+            .then((data) => {
+                console.log("Data fra API:", data);
+                setEvents(data._embedded?.events || []);
+            })
+            .catch((error) => {
+                console.log("Skjedde feil under lasting: ", error);
+                setEvents([]);
+            });
     };
-
-    const getVenue = async () => {
+    
+    const getVenue = () => {
         const cityInfo = cityMap[city] || { name: city, countryCode: "" };
         const apiVenue = `https://app.ticketmaster.com/discovery/v2/venues?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&city=${cityInfo.name}&countryCode=${cityInfo.countryCode}&locale=*&keyword=${cityInfo.name}`;
-        try {
-            const response = await fetch(apiVenue);
-            const data = await response.json();
-            setVenue(data._embedded?.venues || []);
-        } catch (error) {
-            console.error("Skjedde feil under lasting:", error);
-            setVenue([]);
-        }
+    
+        fetch(apiVenue)
+            .then((response) => response.json())
+            .then((data) => {
+                setVenue(data._embedded?.venues || []);
+            })
+            .catch((error) => {
+                console.error("Skjedde feil under lasting:", error);
+                setVenue([]);
+            });
     };
+    
 
     useEffect(() => {
         getEvent();
