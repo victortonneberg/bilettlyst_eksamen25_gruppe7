@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import "./../assets/styles/Dashboard/Dashboard.scss"
+// import "./../assets/styles/Dashboard/Dashboard.scss"
 import { fetchEvents } from "../../sanity/fetchEvents"
 import { fetchUsers } from "../../sanity/fetchUsers"
 import SanityUserCard from "../Dashboard/SanityUserCard"

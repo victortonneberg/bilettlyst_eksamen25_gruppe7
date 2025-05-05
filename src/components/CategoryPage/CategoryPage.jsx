@@ -37,7 +37,7 @@ export default function CategoryPage() {
     
 
 const getEvent = () => {
-    const apiEvent = `https://app.ticketmaster.com/discovery/v2/events?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&city=${city}&classificationName=${eventMap[slug]?.name || slug}`;
+    const apiEvent = `https://app.ticketmaster.com/discovery/v2/events?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&city=${city.name}&classificationName=${eventMap[slug]?.name || slug}`;
         fetch(apiEvent)
         .then((response) => response.json())
         .then((data) => {
@@ -52,15 +52,11 @@ const getEvent = () => {
 
 const getVenue = () => {
     const cityInfo = cityMap[city] || { name: city, countryCode: "NO" };
-    const apiVenue = `https://app.ticketmaster.com/discovery/v2/venues?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&city=${cityInfo.name}&countryCode=${cityInfo.countryCode}&locale=*`;
+    const apiVenue = `https://app.ticketmaster.com/discovery/v2/venues?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&city=${cityInfo}&countryCode=${cityInfo.countryCode}&locale=*`;
     fetch(apiVenue)
         .then((response) => response.json())
         .then((data) => {
-            const venues = data._embedded?.venues || [];
-            const filteredVenues = venues.filter((venue) =>
-                venue.city?.name.toLowerCase() === cityInfo.name.toLowerCase()
-            );
-            setVenue(filteredVenues); 
+            setVenue(data._embedded?.venues || []); 
         })
         .catch((error) => {
             console.error("Skjedde feil under lasting:", error);
@@ -143,11 +139,12 @@ const getVenue = () => {
                                 <CategoryCardVenue
                                     key={v.id}
                                     venue={{
-                                        name: v.name,
+                                        name: v.name,   
                                         address: v.address?.line1,
                                         city: v.city?.name,
                                         image: v.images?.[0]?.url,
                                     }}
+                                    
                                 />
                             ))
                         ) : (
