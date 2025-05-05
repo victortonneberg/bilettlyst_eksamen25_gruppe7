@@ -8,7 +8,8 @@ export default function CategoryPage() {
     const [events, setEvents] = useState([]);
     const [attractions, setAttractions] = useState([]);
     const [venue, setVenue] = useState([]);
-    const [city, setCity] = useState("Oslo"); 
+    const [city, setCity] = useState("oslo"); 
+    const [search, setSearch] = useState("");
 
     const eventMap = {
         musikk: { id: "KZFzniwnSyZfZ7v7nJ", name: "Music" },
@@ -16,13 +17,13 @@ export default function CategoryPage() {
         teater: { id: "KZFzniwnSyZfZ7v7na", name: "Arts & Theatre" }
     };
     const cityMap = {
-        Oslo: { name: "Oslo", countryCode: "NO" },
-        Stockholm: { name: "Stockholm", countryCode: "SE" },
-        København: { name: "Copenhagen", countryCode: "DK" },
+        Oslo: { name: "oslo", countryCode: "NO" },
+        Stockholm: { name: "stockholm", countryCode: "SE" },
+        København: { name: "copenhagen", countryCode: "DK" },
     };
 
     const getAttractions = () => {
-        const cityInfo = cityMap[city] || { name: city, countryCode: "NO" };
+        const cityInfo = cityMap[city] || { name: city, countryCode: "" };
                 const apiAttraction = `https://app.ticketmaster.com/discovery/v2/attractions?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&classificationName=${eventMap[slug]?.name || slug}&countryCode=${cityInfo.countryCode}&keyword=${cityInfo.name}`;
         fetch(apiAttraction)
             .then((response) => response.json())
@@ -34,14 +35,15 @@ export default function CategoryPage() {
                 setAttractions([]);
             });
     };
-    
+
 
 const getEvent = () => {
-    const cityInfo = cityMap[city] || { name: city, countryCode: "NO" };
-    const apiEvent = `https://app.ticketmaster.com/discovery/v2/events?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&city=${cityInfo.name}&classificationName=${eventMap[slug]?.name || slug}&keyword=${cityInfo.name}&countryCode=${cityInfo.countryCode}`;
+    const cityInfo = cityMap[city] || { name: city, countryCode: "" };
+    const apiEvent = `https://app.ticketmaster.com/discovery/v2/events?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&city=${cityInfo.name}&classificationName=${eventMap[slug]?.name || slug}&countryCode=${cityInfo.countryCode}`;
         fetch(apiEvent)
         .then((response) => response.json())
         .then((data) => {
+            console.log("sjekk københavn", data);
             setEvents(data._embedded?.events || []);
         }) 
         .catch((error) => {
@@ -52,7 +54,7 @@ const getEvent = () => {
 
 
 const getVenue = () => {
-    const cityInfo = cityMap[city] || { name: "oslo", countryCode: "NO" };
+    const cityInfo = cityMap[city] || { name: city, countryCode: "" };
     const apiVenue = `https://app.ticketmaster.com/discovery/v2/venues?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&city=${cityInfo.name}&countryCode=${cityInfo.countryCode}&locale=*&keyword=${cityInfo.name}`;
     fetch(apiVenue)
         .then((response) => response.json())
@@ -65,7 +67,6 @@ const getVenue = () => {
         });
 };
 
-
     useEffect(() => {
         getEvent();
         getAttractions(); 
@@ -73,10 +74,13 @@ const getVenue = () => {
     }, [slug, city]);
 
     const handleCityChange = (e) => {
-        const selectedCity = e.target.value;
-        setCity(selectedCity);
+        setCity(e.target.value.toLowerCase());
     };
+    
 
+    const handleSearch = (e) => {
+        setSearch(e.target.value);
+    };
             return (
             <>
                 <h1>{slug}</h1>
@@ -99,8 +103,8 @@ const getVenue = () => {
                     <p>Søk etter event, attraksjon eller spillested</p>
                     <input 
                 type="text" 
-                value={searchQuery}
-                onChange={handleSearchQueryChange}
+                value={search}
+                onChange={handleSearch}
                 onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
             />
             <button type="button" onClick={handleSearch}>Søk</button>
