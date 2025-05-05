@@ -23,7 +23,7 @@ export default function CategoryPage() {
 
     const getAttractions = () => {
         const cityInfo = cityMap[city] || { name: city, countryCode: "NO" };
-                const apiAttraction = `https://app.ticketmaster.com/discovery/v2/attractions?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&classificationName=${eventMap[slug]?.name || slug}&countryCode=${cityInfo.countryCode}`;
+                const apiAttraction = `https://app.ticketmaster.com/discovery/v2/attractions?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&classificationName=${eventMap[slug]?.name || slug}&countryCode=${cityInfo.countryCode}&keyword=${cityInfo.name}`;
         fetch(apiAttraction)
             .then((response) => response.json())
             .then((data) => {
@@ -37,7 +37,8 @@ export default function CategoryPage() {
     
 
 const getEvent = () => {
-    const apiEvent = `https://app.ticketmaster.com/discovery/v2/events?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&city=${city.name}&classificationName=${eventMap[slug]?.name || slug}`;
+    const cityInfo = cityMap[city] || { name: city, countryCode: "NO" };
+    const apiEvent = `https://app.ticketmaster.com/discovery/v2/events?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&city=${cityInfo.name}&classificationName=${eventMap[slug]?.name || slug}&keyword=${cityInfo.name}&countryCode=${cityInfo.countryCode}`;
         fetch(apiEvent)
         .then((response) => response.json())
         .then((data) => {
@@ -51,8 +52,8 @@ const getEvent = () => {
 
 
 const getVenue = () => {
-    const cityInfo = cityMap[city] || { name: city, countryCode: "NO" };
-    const apiVenue = `https://app.ticketmaster.com/discovery/v2/venues?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&city=${cityInfo}&countryCode=${cityInfo.countryCode}&locale=*`;
+    const cityInfo = cityMap[city] || { name: "oslo", countryCode: "NO" };
+    const apiVenue = `https://app.ticketmaster.com/discovery/v2/venues?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&city=${cityInfo.name}&countryCode=${cityInfo.countryCode}&locale=*&keyword=${cityInfo.name}`;
     fetch(apiVenue)
         .then((response) => response.json())
         .then((data) => {
