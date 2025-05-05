@@ -6,8 +6,8 @@ export async function fetchUsers() {
   name,
   _id,
   "imageUrl": profileImage.asset->url,
-  wishlist[]->{title, _id},
-  previousPurchases[]->{title, _id}
+  wishlist[]->{title, _id, apiId},
+  previousPurchases[]->{title, _id, apiId}
 }`
   )
   return data
