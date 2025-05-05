@@ -19,52 +19,52 @@ export default function CategoryPage() {
     const cityMap = {
         Oslo: { name: "Oslo", countryCode: "NO" },
         Stockholm: { name: "Stockholm", countryCode: "SE" },
-        Minnesota: { name: "Minnesota", countryCode: "US" } 
+        Washington: { name: "Washington", countryCode: "US" } 
     };
 
-    const getAttractions = () => {
+    const getAttractions = async () => {
         const cityInfo = cityMap[city] || { name: city, countryCode: "" };
                 const apiAttraction = `https://app.ticketmaster.com/discovery/v2/attractions?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&segmentId=${eventMap[slug]?.id || slug}&countryCode=${cityInfo.countryCode}&keyword=${cityInfo.name}`;
         fetch(apiAttraction)
             .then((response) => response.json())
             .then((data) => {
-                setAttractions(data._embedded?.attractions || []);
+                if (data._embedded && data._embedded.attractions) {
+                    setAttractions(data._embedded.attractions);
+                } else {
+                    setAttractions([]);
+                }
             })
             .catch((error) => {
                 console.error("Feil ved henting av attraksjoner:", error);
                 setAttractions([]);
             });
     };
-
-
-const getEvent = () => {
-    const cityInfo = cityMap[city] || { name: city, countryCode: "" };
-    const apiEvent = `https://app.ticketmaster.com/discovery/v2/events?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&city=${cityInfo.name}&segmentId=${eventMap[slug]?.id || slug}&countryCode=${cityInfo.countryCode}`;
-        fetch(apiEvent)
-        .then((response) => response.json())
-        .then((data) => {
+    const getEvent = async () => {
+        const cityInfo = cityMap[city] || { name: city, countryCode: "" };
+        const apiEvent = `https://app.ticketmaster.com/discovery/v2/events?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&city=${cityInfo.name}&segmentId=${eventMap[slug]?.id || slug}&countryCode=${cityInfo.countryCode}`;
+        try {
+            const response = await fetch(apiEvent);
+            const data = await response.json();
+            console.log("Data fra API:", data);
             setEvents(data._embedded?.events || []);
-        }) 
-        .catch((error) => {
+        } catch (error) {
             console.log("Skjedde feil under lasting: ", error);
             setEvents([]);
-        });
-};
+        }
+    };
 
-
-const getVenue = () => {
-    const cityInfo = cityMap[city] || { name: city, countryCode: "" };
-    const apiVenue = `https://app.ticketmaster.com/discovery/v2/venues?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&city=${cityInfo.name}&countryCode=${cityInfo.countryCode}&locale=*&keyword=${cityInfo.name}`;
-    fetch(apiVenue)
-        .then((response) => response.json())
-        .then((data) => {
-            setVenue(data._embedded?.venues || []); 
-        })
-        .catch((error) => {
+    const getVenue = async () => {
+        const cityInfo = cityMap[city] || { name: city, countryCode: "" };
+        const apiVenue = `https://app.ticketmaster.com/discovery/v2/venues?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&city=${cityInfo.name}&countryCode=${cityInfo.countryCode}&locale=*&keyword=${cityInfo.name}`;
+        try {
+            const response = await fetch(apiVenue);
+            const data = await response.json();
+            setVenue(data._embedded?.venues || []);
+        } catch (error) {
             console.error("Skjedde feil under lasting:", error);
-            setVenue([]); 
-        });
-};
+            setVenue([]);
+        }
+    };
 
     useEffect(() => {
         getEvent();
@@ -96,7 +96,7 @@ const getVenue = () => {
                 <select name="By" id="city" onChange={handleCityChange} value={city}>
                     <option value="oslo">Oslo</option>
                     <option value="stockholm">Stockholm</option>
-                    <option value="Minnesota">Minnesota</option>
+                    <option value="Washington">Washington</option>
                 </select>
                 <p>Søk etter event, attraksjon eller spillested</p>
                 <input 
