@@ -17,9 +17,9 @@ export default function CategoryPage() {
         teater: { id: "KZFzniwnSyZfZ7v7na", name: "Arts & Theatre" }
     };
     const cityMap = {
-        Oslo: { name: "oslo", countryCode: "NO" },
-        Stockholm: { name: "stockholm", countryCode: "SE" },
-        København: { name: "copenhagen", countryCode: "DK" },
+        Oslo: { name: "Oslo", countryCode: "NO" },
+        Stockholm: { name: "Stockholm", countryCode: "SE" },
+        København: { name: "København k", countryCode: "DK" } 
     };
 
     const getAttractions = () => {
@@ -43,7 +43,6 @@ const getEvent = () => {
         fetch(apiEvent)
         .then((response) => response.json())
         .then((data) => {
-            console.log("sjekk københavn", data);
             setEvents(data._embedded?.events || []);
         }) 
         .catch((error) => {
@@ -74,41 +73,42 @@ const getVenue = () => {
     }, [slug, city]);
 
     const handleCityChange = (e) => {
-        setCity(e.target.value.toLowerCase());
+        setCity(e.target.value);
     };
     
-
+    const fetchData = () => {
+        console.log("Fetching data for search:", search, "and city:", city);
+        getEvent();
+        getAttractions();
+        getVenue();
+    };
+    
     const handleSearch = (e) => {
         setSearch(e.target.value);
     };
+    
             return (
             <>
-                <h1>{slug}</h1>
-                <h3>Filtrert søk</h3>
-                <section id="categoryPage-filter">
-                    <p>Dato:</p>
-                    <input type="date" />
-                    <p>Land:</p>
-                    <select name="Land" id="country">
-                        <option value="Norge">Norge</option>
-                        <option value="Sverige">Sverige</option>
-                        <option value="Danmark">Danmark</option>
-                    </select>
-                    <p>By:</p>
-                    <select name="By" id="city" onChange={handleCityChange} value={city}>
-                        <option value="Oslo">Oslo</option>
-                        <option value="Stockholm">Stockholm</option>
-                        <option value="København">København</option>
-                    </select>
-                    <p>Søk etter event, attraksjon eller spillested</p>
-                    <input 
-                type="text" 
-                value={search}
-                onChange={handleSearch}
-                onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-            />
-            <button type="button" onClick={handleSearch}>Søk</button>
-                </section>
+            <h1>{slug}</h1>
+            <h3>Filtrert søk</h3>
+            <section id="categoryPage-filter">
+                <p>By:</p>
+                <select name="By" id="city" onChange={handleCityChange} value={city}>
+                    <option value="oslo">Oslo</option>
+                    <option value="stockholm">Stockholm</option>
+                    <option value="København k">København</option>
+                </select>
+                <p>Søk etter event, attraksjon eller spillested</p>
+                <input 
+                    type="text" 
+                    value={search}
+                    onChange={handleSearch}
+                    onKeyDown={(e) => e.key === 'Enter' && fetchData()}
+                    placeholder="Søk etter navn..."
+                />
+                <button type="button" onClick={fetchData}>Søk</button>
+            </section>
+
                 <section id="categoryPage-attraksjoner">
                     <h2>Artister/Attraksjoner</h2>
                     {attractions.length > 0 ? (
