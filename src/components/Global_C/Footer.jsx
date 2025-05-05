@@ -4,7 +4,10 @@ export default function Footer() {
     <footer className="globalfooter">
       <p>
         Data hentet fra{" "}
-        <a href="https://developer.ticketmaster.com/products-and-docs/apis/getting-started/">
+        <a
+          href="https://developer.ticketmaster.com/products-and-docs/apis/getting-started/"
+          target="_blank"
+        >
           Ticketmaster API
         </a>
       </p>
