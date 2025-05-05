@@ -110,7 +110,7 @@ const getVenue = () => {
             </section>
 
                 <section id="categoryPage-attraksjoner">
-                    <h2>Artister/Attraksjoner</h2>
+                    <h2>Attraksjoner</h2>
                     {attractions.length > 0 ? (
                         attractions.map(attraction => (
                             <CategoryCardAttraction
