@@ -19,12 +19,12 @@ export default function CategoryPage() {
     const cityMap = {
         Oslo: { name: "Oslo", countryCode: "NO" },
         Stockholm: { name: "Stockholm", countryCode: "SE" },
-        København: { name: "København k", countryCode: "DK" } 
+        Minnesota: { name: "Minnesota", countryCode: "US" } 
     };
 
     const getAttractions = () => {
         const cityInfo = cityMap[city] || { name: city, countryCode: "" };
-                const apiAttraction = `https://app.ticketmaster.com/discovery/v2/attractions?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&classificationName=${eventMap[slug]?.name || slug}&countryCode=${cityInfo.countryCode}&keyword=${cityInfo.name}`;
+                const apiAttraction = `https://app.ticketmaster.com/discovery/v2/attractions?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&segmentId=${eventMap[slug]?.id || slug}&countryCode=${cityInfo.countryCode}&keyword=${cityInfo.name}`;
         fetch(apiAttraction)
             .then((response) => response.json())
             .then((data) => {
@@ -39,7 +39,7 @@ export default function CategoryPage() {
 
 const getEvent = () => {
     const cityInfo = cityMap[city] || { name: city, countryCode: "" };
-    const apiEvent = `https://app.ticketmaster.com/discovery/v2/events?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&city=${cityInfo.name}&classificationName=${eventMap[slug]?.name || slug}&countryCode=${cityInfo.countryCode}`;
+    const apiEvent = `https://app.ticketmaster.com/discovery/v2/events?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&city=${cityInfo.name}&segmentId=${eventMap[slug]?.id || slug}&countryCode=${cityInfo.countryCode}`;
         fetch(apiEvent)
         .then((response) => response.json())
         .then((data) => {
@@ -96,7 +96,7 @@ const getVenue = () => {
                 <select name="By" id="city" onChange={handleCityChange} value={city}>
                     <option value="oslo">Oslo</option>
                     <option value="stockholm">Stockholm</option>
-                    <option value="København k">København</option>
+                    <option value="Minnesota">Minnesota</option>
                 </select>
                 <p>Søk etter event, attraksjon eller spillested</p>
                 <input 
