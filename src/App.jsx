@@ -4,7 +4,7 @@ import { Routes, Route } from 'react-router-dom'
 import CategoryPage from './components/CategoryPage/CategoryPage'
 import EventPage from './components/EventPage/eventPage'
 import Layout from './components/Layout'
-import '../src/assets/styles/CategoryPage.scss'
+import '../src/assets/styles/CategoryPage/CategoryPage.scss'
 import Dashboard from "./components/Dashboard/Dashboard"
 import "./assets/styles/style.scss"
 import SanityEventDetails from "./components/Dashboard/SanityEventDetails"

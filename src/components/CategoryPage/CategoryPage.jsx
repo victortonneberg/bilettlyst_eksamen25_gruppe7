@@ -96,9 +96,14 @@ const getVenue = () => {
                         <option value="Stockholm">Stockholm</option>
                         <option value="København">København</option>
                     </select>
-                    <button type="submit">Søk</button>
                     <p>Søk etter event, attraksjon eller spillested</p>
-                    <input type="text" />
+                    <input 
+                type="text" 
+                value={searchQuery}
+                onChange={handleSearchQueryChange}
+                onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+            />
+            <button type="button" onClick={handleSearch}>Søk</button>
                 </section>
                 <section id="categoryPage-attraksjoner">
                     <h2>Artister/Attraksjoner</h2>
