@@ -1,0 +1,21 @@
+
+#categoryPage-arrangementer, #categoryPage-attraksjoner, #categoryPage-spillesteder {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.attractionCard, .eventCard, .venueCard {
+    display: flex;
+    flex-direction: column;
+    height: 20rem;
+    width: 20rem;
+    border: 1px solid #ccc;
+    
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+}

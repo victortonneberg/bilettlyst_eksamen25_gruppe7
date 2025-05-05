@@ -8,7 +8,8 @@ export default function CategoryPage() {
     const [events, setEvents] = useState([]);
     const [attractions, setAttractions] = useState([]);
     const [venue, setVenue] = useState([]);
-    const [city, setCity] = useState("Oslo"); 
+    const [city, setCity] = useState("oslo"); 
+    const [search, setSearch] = useState("");
 
     const eventMap = {
         musikk: { id: "KZFzniwnSyZfZ7v7nJ", name: "Music" },
@@ -18,56 +19,52 @@ export default function CategoryPage() {
     const cityMap = {
         Oslo: { name: "Oslo", countryCode: "NO" },
         Stockholm: { name: "Stockholm", countryCode: "SE" },
-        København: { name: "Copenhagen", countryCode: "DK" },
+        Washington: { name: "Washington", countryCode: "US" } 
     };
 
-    const getAttractions = () => {
-        const cityInfo = cityMap[city] || { name: city, countryCode: "NO" };
-                const apiAttraction = `https://app.ticketmaster.com/discovery/v2/attractions?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&classificationName=${eventMap[slug]?.name || slug}&countryCode=${cityInfo.countryCode}`;
+    const getAttractions = async () => {
+        const cityInfo = cityMap[city] || { name: city, countryCode: "" };
+                const apiAttraction = `https://app.ticketmaster.com/discovery/v2/attractions?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&segmentId=${eventMap[slug]?.id || slug}&countryCode=${cityInfo.countryCode}&keyword=${cityInfo.name}`;
         fetch(apiAttraction)
             .then((response) => response.json())
             .then((data) => {
-                setAttractions(data._embedded?.attractions || []);
+                if (data._embedded && data._embedded.attractions) {
+                    setAttractions(data._embedded.attractions);
+                } else {
+                    setAttractions([]);
+                }
             })
             .catch((error) => {
                 console.error("Feil ved henting av attraksjoner:", error);
                 setAttractions([]);
             });
     };
-    
-
-const getEvent = () => {
-    const apiEvent = `https://app.ticketmaster.com/discovery/v2/events?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&city=${city}&classificationName=${eventMap[slug]?.name || slug}`;
-        fetch(apiEvent)
-        .then((response) => response.json())
-        .then((data) => {
+    const getEvent = async () => {
+        const cityInfo = cityMap[city] || { name: city, countryCode: "" };
+        const apiEvent = `https://app.ticketmaster.com/discovery/v2/events?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&city=${cityInfo.name}&segmentId=${eventMap[slug]?.id || slug}&countryCode=${cityInfo.countryCode}`;
+        try {
+            const response = await fetch(apiEvent);
+            const data = await response.json();
+            console.log("Data fra API:", data);
             setEvents(data._embedded?.events || []);
-        }) 
-        .catch((error) => {
+        } catch (error) {
             console.log("Skjedde feil under lasting: ", error);
             setEvents([]);
-        });
-};
+        }
+    };
 
-
-const getVenue = () => {
-    const cityInfo = cityMap[city] || { name: city, countryCode: "NO" };
-    const apiVenue = `https://app.ticketmaster.com/discovery/v2/venues?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&city=${cityInfo.name}&countryCode=${cityInfo.countryCode}&locale=*`;
-    fetch(apiVenue)
-        .then((response) => response.json())
-        .then((data) => {
-            const venues = data._embedded?.venues || [];
-            const filteredVenues = venues.filter((venue) =>
-                venue.city?.name.toLowerCase() === cityInfo.name.toLowerCase()
-            );
-            setVenue(filteredVenues); 
-        })
-        .catch((error) => {
+    const getVenue = async () => {
+        const cityInfo = cityMap[city] || { name: city, countryCode: "" };
+        const apiVenue = `https://app.ticketmaster.com/discovery/v2/venues?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&city=${cityInfo.name}&countryCode=${cityInfo.countryCode}&locale=*&keyword=${cityInfo.name}`;
+        try {
+            const response = await fetch(apiVenue);
+            const data = await response.json();
+            setVenue(data._embedded?.venues || []);
+        } catch (error) {
             console.error("Skjedde feil under lasting:", error);
-            setVenue([]); 
-        });
-};
-
+            setVenue([]);
+        }
+    };
 
     useEffect(() => {
         getEvent();
@@ -76,35 +73,44 @@ const getVenue = () => {
     }, [slug, city]);
 
     const handleCityChange = (e) => {
-        const selectedCity = e.target.value;
-        setCity(selectedCity);
+        setCity(e.target.value);
     };
-
+    
+    const fetchData = () => {
+        console.log("Fetching data for search:", search, "and city:", city);
+        getEvent();
+        getAttractions();
+        getVenue();
+    };
+    
+    const handleSearch = (e) => {
+        setSearch(e.target.value);
+    };
+    
             return (
             <>
-                <h1>{slug}</h1>
-                <h3>Filtrert søk</h3>
-                <section id="categoryPage-filter">
-                    <p>Dato:</p>
-                    <input type="date" />
-                    <p>Land:</p>
-                    <select name="Land" id="country">
-                        <option value="Norge">Norge</option>
-                        <option value="Sverige">Sverige</option>
-                        <option value="Danmark">Danmark</option>
-                    </select>
-                    <p>By:</p>
-                    <select name="By" id="city" onChange={handleCityChange} value={city}>
-                        <option value="Oslo">Oslo</option>
-                        <option value="Stockholm">Stockholm</option>
-                        <option value="København">København</option>
-                    </select>
-                    <button type="submit">Søk</button>
-                    <p>Søk etter event, attraksjon eller spillested</p>
-                    <input type="text" />
-                </section>
+            <h1>{slug}</h1>
+            <h3>Filtrert søk</h3>
+            <section id="categoryPage-filter">
+                <p>By:</p>
+                <select name="By" id="city" onChange={handleCityChange} value={city}>
+                    <option value="oslo">Oslo</option>
+                    <option value="stockholm">Stockholm</option>
+                    <option value="Washington">Washington</option>
+                </select>
+                <p>Søk etter event, attraksjon eller spillested</p>
+                <input 
+                    type="text" 
+                    value={search}
+                    onChange={handleSearch}
+                    onKeyDown={(e) => e.key === 'Enter' && fetchData()}
+                    placeholder="Søk etter navn..."
+                />
+                <button type="button" onClick={fetchData}>Søk</button>
+            </section>
+
                 <section id="categoryPage-attraksjoner">
-                    <h2>Artister/Attraksjoner</h2>
+                    <h2>Attraksjoner</h2>
                     {attractions.length > 0 ? (
                         attractions.map(attraction => (
                             <CategoryCardAttraction
@@ -143,11 +149,12 @@ const getVenue = () => {
                                 <CategoryCardVenue
                                     key={v.id}
                                     venue={{
-                                        name: v.name,
+                                        name: v.name,   
                                         address: v.address?.line1,
                                         city: v.city?.name,
                                         image: v.images?.[0]?.url,
                                     }}
+                                    
                                 />
                             ))
                         ) : (
