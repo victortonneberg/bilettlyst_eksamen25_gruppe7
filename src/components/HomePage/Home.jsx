@@ -58,4 +58,5 @@ export default FestivalData
 /* Kilder:
    https://www.geeksforgeeks.org/fetching-data-from-an-api-with-useeffect-and-usestate-hook/
    https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Optional_chaining#optional_element_access 
+   søskenbarn Neema Cihiluka 
 */
