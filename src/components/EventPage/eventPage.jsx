@@ -8,7 +8,7 @@ export default function EventPage() {
     const [event, setEvent] = useState(null);
     const { id } = useParams();
 
-
+    
     useEffect(() => {
         fetch(`https://app.ticketmaster.com/discovery/v2/events/G5vVZbowlaVz5.json?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq`)
         //fetch(`https://app.ticketmaster.com/discovery/v2/events/${eventId}.json?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq`)
