@@ -1,3 +1,16 @@
+import "../../assets/styles/Global_C/Footer.scss"
 export default function Footer() {
-  return <h1>Footer</h1>
+  return (
+    <footer className="globalfooter">
+      <p>
+        Data hentet fra{" "}
+        <a
+          href="https://developer.ticketmaster.com/products-and-docs/apis/getting-started/"
+          target="_blank"
+        >
+          Ticketmaster API
+        </a>
+      </p>
+    </footer>
+  )
 }
