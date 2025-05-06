@@ -30,7 +30,12 @@ export default function DetailEventPage() {
         <>
         <header>
             <h1>{event.name}</h1>
-            <p>Sjanger: {event.classifications?.[0]?.genre?.name || "Ukjent sjanger"}</p> 
+            <p>Sjanger:  
+                {event.classifications?.[0]?.segment?.name || ""},
+                {event.classifications?.[0]?.genre?.name || ""},
+                {event.classifications?.[0]?.subGenre?.name || ""}
+                </p> 
+                
         </header>
 
         <p>Følg oss på sosiale medier:</p>
