@@ -10,6 +10,7 @@ import "./assets/styles/style.scss"
 import SanityEventDetails from "./components/Dashboard/SanityEventDetails"
 
 
+
 function App() {
   return (
     <>

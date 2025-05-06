@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import CategoryCardAttraction from "./CategoryCardAttraction";
 import CategoryCardEvent from "./CategoryCardEvent";
 import CategoryCardVenue from "./CategoryCardVenue";
+
 export default function CategoryPage() {
     const { slug } = useParams();
     const [events, setEvents] = useState([]);
@@ -10,6 +11,7 @@ export default function CategoryPage() {
     const [venue, setVenue] = useState([]);
     const [city, setCity] = useState("oslo"); 
     const [search, setSearch] = useState("");
+    const [favourite, setFavourite] = useState([]);
 
     const eventMap = {
         musikk: { id: "KZFzniwnSyZfZ7v7nJ", name: "Music" },
@@ -86,6 +88,14 @@ export default function CategoryPage() {
     
     const handleSearch = (e) => {
         setSearch(e.target.value);
+    };
+
+    const toggleFavourite = (id) => {
+        setFavourite((prevFavourite) =>
+            prevFavourite.includes(id)
+                ? prevFavourite.filter((itemId) => itemId !== id)
+                : [...prevFavourite, id]
+        );
     };
     
             return (
