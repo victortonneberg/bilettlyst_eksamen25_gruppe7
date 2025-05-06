@@ -74,7 +74,7 @@ export default function CategoryPage() {
         getEvent();
         getAttractions(); 
         getVenue();
-    }, []);
+    }, [slug]);
 
     const handleCityChange = (e) => {
         setCity(e.target.value);
