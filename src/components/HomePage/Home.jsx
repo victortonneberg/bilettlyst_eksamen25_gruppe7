@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import FestivalCard from "./FestivalCard"
+import "../../assets/styles/HomePage/Home.scss";
 
 
 export default function FeaturedFestivals() {
