@@ -9,17 +9,17 @@ import Home from "./components/HomePage/Home"
 
 function App() {
   return (
-    <>
-      <Layout>
+    <Layout>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/sanity-event/:id" element={<SanityEventDetails />} />
         <Route path="/events" element={<EventPage />} />
+        <Route path="/event/:id" element={<EventPage />} />
         <Route path="/category/:slug" element={<CategoryPage />} />
       </Routes>
-      </Layout>
-    </>
+    </Layout>
   )
 }
+
 export default App

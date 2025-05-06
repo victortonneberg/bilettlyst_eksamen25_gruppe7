@@ -1,62 +1,61 @@
 import { useEffect, useState } from "react"
+import FestivalCard from "./FestivalCard"
 
-function FestivalData() {
-  const [festivals, setFestivals] = useState([])
 
-  const festivalNames = [
-    "Findings",
-    "Neon",
-    "Skeikampenfestivalen",
-    "Tons of Rock"
+export default function FeaturedFestivals() {
+  const festivalIds = [
+    "Z698xZb_Z16vf7eZZV",
+    "Z698xZb_Z17q3f6",
+    "Z698xZb_Z17q3rd",
+    "Z698xZb_Z17qfao"
   ]
 
-  useEffect(() => {
-    const fetchedFestivals = []
-    let completedRequests = 0
+  const [festivals, setFestivals] = useState([])
 
-    festivalNames.forEach((festivalName) => {
-      fetch(`/api/discovery/v2/events?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&keyword=${festivalName}&locale=*&size=1&countryCode=NO`)
-        .then(response => response.json())
-        .then(data => {
-          if (data._embedded?.events?.length) {
-            fetchedFestivals.push(data._embedded.events[0])
-          }
+  const getTicketmasterData = () => {
 
-          completedRequests++
-          const allRequestsDone = completedRequests === festivalNames.length
-
-          if (allRequestsDone) {
-            setFestivals(fetchedFestivals)
-          }
+    const promises = festivalIds.map((id) =>
+      fetch(
+        `https://app.ticketmaster.com/discovery/v2/events/${id}?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&locale=*`
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          console.log("TM response for", id, data)
+          return data
         })
+        .catch((error) => {
+          console.log("Feil under fetch fra TM for", id, ":", error)
+          return null
+        })
+    )
+
+    
+    Promise.all(promises).then((results) => {
+
+      const successful = results.filter((event) => event !== null)
+      setFestivals(successful)
+      //https://www.geeksforgeeks.org/how-to-fetch-an-array-of-urls-with-promise-all/
+      //Sjekket kursets repository, men finner ingen annen måte å gjøre det på. 
+
     })
+  }
+
+  useEffect(() => {
+    getTicketmasterData()
   }, [])
 
   return (
-    <main>
-      <h1>Festivaler</h1>
-      <ul>
-        {festivals.map((festival) => (
-          <li key={festival.id}>
-            <article>
-              <h2>{festival.name}</h2>
-              <img
-                src={festival.images[0].url}
-                alt={`Bilde fra ${festival.name}`}
-                style={{ width: "100%", maxHeight: "200px", objectFit: "cover" }}
-              />
-            </article>
-          </li>
-        ))}
-      </ul>
-    </main>
+    <>
+      <h2>Utvalgte festivaler</h2>
+      <section className="festivals-grid">
+        {festivals.length > 0 ? (
+          festivals.map((event) => (
+            <FestivalCard key={event.id} event={event} />
+          ))
+        ) : (
+          <p>Laster inn festivalene…</p>
+        )}
+      </section>
+    </>
   )
 }
-
-export default FestivalData
-
-/* Kilder:
-   https://www.geeksforgeeks.org/fetching-data-from-an-api-with-useeffect-and-usestate-hook/
-   https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Optional_chaining#optional_element_access 
-   søskenbarn Neema Cihiluka 
-*/
