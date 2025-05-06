@@ -9,7 +9,7 @@ export default function CategoryPage() {
     const [events, setEvents] = useState([]);
     const [attractions, setAttractions] = useState([]);
     const [venue, setVenue] = useState([]);
-    const [city, setCity] = useState("oslo"); 
+    const [city, setCity] = useState("oslo");
     const [search, setSearch] = useState("");
     const [favourite, setFavourite] = useState([]);
 
@@ -18,6 +18,7 @@ export default function CategoryPage() {
         sport: { id: "KZFzniwnSyZfZ7v7nE", name: "Sports" },
         teater: { id: "KZFzniwnSyZfZ7v7na", name: "Arts & Theatre" }
     };
+
     const cityMap = {
         Oslo: { name: "Oslo", countryCode: "NO" },
         Stockholm: { name: "Stockholm", countryCode: "SE" },
@@ -120,58 +121,67 @@ export default function CategoryPage() {
                 <button type="button" onClick={fetchData}>Søk</button>
             </section>
 
-                <section id="categoryPage-attraksjoner">
-                    <h2>Attraksjoner</h2>
-                    {attractions.length > 0 ? (
-                        attractions.map(attraction => (
-                            <CategoryCardAttraction
-                                key={attraction.id}
-                                attraction={{
-                                    name: attraction.name,
-                                    image: attraction.images?.[0]?.url,
-                                }}
-                            />
-                        ))
-                    ) : (
-                        <p>Ingen attraksjoner funnet</p>
-                    )}
-                </section>
-                <section id="categoryPage-arrangementer">
-                    <h2>Arrangementer</h2>
-                {events.length > 0 ? (
-                    events.map((event) => (
-                    <CategoryCardEvent
-                    key={event.id}
-                     event={{
-                         name: event.name,
-                         image: event.images?.[0]?.url,
-                         date: event.dates?.start?.localDate, 
-                         time: event.dates?.start?.localTime,
-                     }}/>
+            <section id="categoryPage-attraksjoner">
+            <h2>Attraksjoner</h2>
+            {attractions.length > 0 ? (
+                attractions.map(attraction => (
+                    <CategoryCardAttraction
+                        key={attraction.id}
+                        attraction={{
+                            id: attraction.id,
+                            name: attraction.name,
+                            image: attraction.images?.[0]?.url,
+                        }}
+                        isFavourite={favourite.includes(attraction.id)}
+                        toggleFavourite={toggleFavourite}
+                    />
+                ))
+            ) : (
+                <p>Ingen attraksjoner funnet</p>
+            )}
+            </section>
+            <section id="categoryPage-arrangementer">
+    <h2>Arrangementer</h2>
+    {events.length > 0 ? (
+        events.map((event) => (
+            <CategoryCardEvent
+                key={event.id}
+                event={{
+                    id: event.id,
+                    name: event.name,
+                    image: event.images?.[0]?.url,
+                    date: event.dates?.start?.localDate,
+                    time: event.dates?.start?.localTime,
+                }}
+                isFavourite={favourite.includes(event.id)}
+                toggleFavourite={toggleFavourite}
+            />
+        ))
+    ) : (
+        <p>Ingen arrangementer funnet</p>
+    )}
+</section>
+                <section id="categoryPage-spillesteder">
+                <h2>Spillesteder</h2>
+                {venue.length > 0 ? (
+                    venue.map((v) => (
+                        <CategoryCardVenue
+                            key={v.id}
+                            venue={{
+                                id: v.id,  
+                                name: v.name,   
+                                address: v.address?.line1,
+                                city: v.city?.name,
+                                image: v.images?.[0]?.url,
+                            }}
+                            isFavourite={favourite.includes(v.id)}
+                            toggleFavourite={toggleFavourite}
+                        />
                     ))
                 ) : (
-                    <p>Ingen arrangementer funnet</p>
+                    <p>Ingen spillesteder funnet</p>
                 )}
-                </section>
-                    <section id="categoryPage-spillesteder">
-                        <h2>Spillesteder</h2>
-                        {venue.length > 0 ? (
-                            venue.map((v) => (
-                                <CategoryCardVenue
-                                    key={v.id}
-                                    venue={{
-                                        name: v.name,   
-                                        address: v.address?.line1,
-                                        city: v.city?.name,
-                                        image: v.images?.[0]?.url,
-                                    }}
-                                    
-                                />
-                            ))
-                        ) : (
-                            <p>Ingen spillesteder funnet</p>
-                        )}
-                    </section>
+</section>
                
             </>
         );
