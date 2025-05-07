@@ -29,7 +29,7 @@ export default function CategoryPage() {
 
     const getAttractions = async () => {
         const cityInfo = cityMap[city] || { name: city, countryCode: "" };
-        const apiAttraction = `https://app.ticketmaster.com/discovery/v2/attractions?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&segmentId=${eventMap[slug]?.id || slug}&countryCode=${country}&keyword=${cityInfo.name + search}&startDateTime=${date}`;
+        const apiAttraction = `https://app.ticketmaster.com/discovery/v2/attractions?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&segmentId=${eventMap[slug]?.id || slug}&countryCode=${cityInfo.countryCode}&keyword=${cityInfo.name + search}&startDateTime=${date}`;
         fetch(apiAttraction)
             .then((response) => response.json())
             .then((data) => {
@@ -43,7 +43,7 @@ export default function CategoryPage() {
 
     const getEvent = async () => {
         const cityInfo = cityMap[city] || { name: city, countryCode: "" };
-        const apiEvent = `https://app.ticketmaster.com/discovery/v2/events?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&city=${cityInfo.name}&segmentId=${eventMap[slug]?.id || slug}&countryCode=${country}&startDateTime=${date}&keyword=${search}`;
+        const apiEvent = `https://app.ticketmaster.com/discovery/v2/events?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&city=${cityInfo.name}&segmentId=${eventMap[slug]?.id || slug}&countryCode=${cityInfo.countryCode}&startDateTime=${date}&keyword=${search}`;
         fetch(apiEvent)
             .then((response) => response.json())
             .then((data) => {
@@ -58,7 +58,7 @@ export default function CategoryPage() {
     
     const getVenue = () => {
         const cityInfo = cityMap[city] || { name: city, countryCode: "" };
-        const apiVenue = `https://app.ticketmaster.com/discovery/v2/venues?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&city=${cityInfo.name}&countryCode=${country}&locale=*&keyword=${cityInfo.name + search}&startDateTime=${date}`;
+        const apiVenue = `https://app.ticketmaster.com/discovery/v2/venues?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&city=${cityInfo.name}&countryCode=${cityInfo.countryCode}&locale=*&keyword=${cityInfo.name + search}&startDateTime=${date}`;
         fetch(apiVenue)
             .then((response) => response.json())
             .then((data) => {

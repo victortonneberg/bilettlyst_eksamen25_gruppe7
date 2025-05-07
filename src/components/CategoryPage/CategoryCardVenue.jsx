@@ -5,7 +5,7 @@ import { faStar as faRegularStar } from '@fortawesome/free-regular-svg-icons';
 export default function CategoryCardVenue({ venue, isFavourite, toggleFavourite }) {
     return (
         <article className="venueCard">
-            <img src={venue.image} alt={venue.name} />
+            <img src={venue.image} alt={"Bilde ikke funnet:  " + venue.name} />
             <button
                 onClick={() => toggleFavourite(venue.id)}
                 style={{ background: 'none', border: 'none', cursor: 'pointer' }}
