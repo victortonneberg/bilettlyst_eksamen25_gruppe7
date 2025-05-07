@@ -27,7 +27,7 @@ export default function CategoryPage() {
         Washington: { name: "Washington", countryCode: "US" } 
     };
 
-    const getAttractions = async () => {
+    const getAttractions = () => {
         const cityInfo = cityMap[city] || { name: city, countryCode: "" };
         const apiAttraction = `https://app.ticketmaster.com/discovery/v2/attractions?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&segmentId=${eventMap[slug]?.id || slug}&countryCode=${cityInfo.countryCode}&keyword=${cityInfo.name + search}&startDateTime=${date}`;
         fetch(apiAttraction)
@@ -41,7 +41,7 @@ export default function CategoryPage() {
             });
     };
 
-    const getEvent = async () => {
+    const getEvent = () => {
         const cityInfo = cityMap[city] || { name: city, countryCode: "" };
         const apiEvent = `https://app.ticketmaster.com/discovery/v2/events?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&city=${cityInfo.name}&segmentId=${eventMap[slug]?.id || slug}&countryCode=${cityInfo.countryCode}&startDateTime=${date}&keyword=${search}`;
         fetch(apiEvent)
