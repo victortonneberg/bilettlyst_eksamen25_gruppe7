@@ -1,7 +1,6 @@
 
 #eventHeader {
     width: 100%;
-    height: 100%;
     display: flex;
     flex-direction: column;
     padding: 1rem;
@@ -27,8 +26,6 @@
       font-size: 1.5rem;
       color: #000;
       display: flex ;
-      margin-left: 0;
-      padding-left: 0;
       justify-content: flex-start;
     }
   }
@@ -41,19 +38,10 @@
         flex-direction: row;
         flex-wrap: wrap;
         width: 100%;
-        height: 100%;
-        background-color: #fff;
-        border: 1px solid #ccc;
-        border-radius: 10px;
         justify-content: space-evenly;
         margin: auto;
-        h4{
+        h4, p{
           display: flex;
-          justify-content: flex-start;
-        }
-        p{
-          display: flex;
-          justify-content: flex-start;
         }
         #kjop, #handlevogn{
           color: #000000;
@@ -69,19 +57,12 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            border-radius: 5%;
           }
       }
   }
 }
 
-
-
-  
-
-
   #artistCardContainer {
-    flex-direction: row;
     gap: 10rem;
     justify-content: center;
     align-items: center;
