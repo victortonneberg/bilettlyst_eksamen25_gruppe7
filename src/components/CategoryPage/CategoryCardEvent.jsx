@@ -8,7 +8,7 @@ export default function CategoryCardEvent({ event, isFavourite, toggleFavourite 
     
     return (
         <article className="eventCard">
-            <img src={event.image} alt={event.name} />
+            <img src={event.image} alt={"Bilde ikke funnet:  " + event.name} />
             <button 
                 onClick={() => toggleFavourite(event.id)}
                 style={{ background: 'none', border: 'none', cursor: 'pointer' }}>
@@ -17,6 +17,7 @@ export default function CategoryCardEvent({ event, isFavourite, toggleFavourite 
                     style={{ color: isFavourite ? 'gold' : 'black' }} />
             </button>
             <h3>{event.name}</h3>
+            <p>{event.date}</p>
             <p>Dato: {formattedDate}</p>
             <p>Tid: {formattedTime}</p>
         </article>
