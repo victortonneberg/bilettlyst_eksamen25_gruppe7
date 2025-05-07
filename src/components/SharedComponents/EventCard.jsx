@@ -10,8 +10,6 @@ export default function EventCard({
   isFavourite,
   toggleFavourite,
 }) {
-  const imageUrl = event.images?.[0]?.url;
-
   //For bruk på CategoryPage:
   const formattedDate = event.date
     ? new Date(event.date).toLocaleDateString()

@@ -180,8 +180,8 @@ export default function CategoryPage() {
         )}
       </section>
 
-      <section id="festivals-grid">
-        <h2>Arrangementer</h2>
+      <h2>Arrangementer</h2>
+      <section class="festivals-grid">
         {events.length > 0 ? (
           events.map((event) => (
             <EventCard
@@ -199,6 +199,27 @@ export default function CategoryPage() {
           ))
         ) : (
           <p>Ingen arrangementer funnet</p>
+        )}
+      </section>
+      <section id="categoryPage-spillesteder">
+        <h2>Spillesteder</h2>
+        {venue.length > 0 ? (
+          venue.map((v) => (
+            <CategoryCardVenue
+              key={v.id}
+              venue={{
+                id: v.id,
+                name: v.name,
+                address: v.address?.line1,
+                city: v.city?.name,
+                image: v.images?.[0]?.url,
+              }}
+              isFavourite={favourite.includes(v.id)}
+              toggleFavourite={toggleFavourite}
+            />
+          ))
+        ) : (
+          <p>Ingen spillesteder funnet</p>
         )}
       </section>
     </>

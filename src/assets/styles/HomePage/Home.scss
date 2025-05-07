@@ -1,5 +1,3 @@
-
-
 .festivals-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -14,13 +12,17 @@
 }
 
 .festivalCard {
-  background:rgb(243, 243, 239);
+  background: rgb(243, 243, 239);
   border-radius: 0.5rem;
   overflow: hidden;
-  box-shadow: 0 4px 12px black(0,0,0,0.09);
+  box-shadow: 0 4px 12px black(0, 0, 0, 0.09);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   display: flex;
   flex-direction: column;
+
+  img {
+    height: 170px;
+  }
 }
 
 .festivalCard:hover {
@@ -28,7 +30,6 @@
   //https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function/translate
   box-shadow: 0 8px 20px black;
 }
-
 
 .festivalCard h3 {
   font-size: 1rem;
