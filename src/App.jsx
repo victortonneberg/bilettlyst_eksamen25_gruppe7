@@ -5,6 +5,7 @@ import CategoryPage from './components/CategoryPage/CategoryPage'
 import DetailEventPage from './components/EventPage/DetailEventPage'
 import Layout from './components/Layout'
 import '../src/assets/styles/CategoryPage/CategoryPage.scss'
+import './assets/styles/EventPage/EventPage.scss'
 import Dashboard from "./components/Dashboard/Dashboard"
 import "./assets/styles/style.scss"
 import SanityEventDetails from "./components/Dashboard/SanityEventDetails"
