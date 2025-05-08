@@ -17,6 +17,9 @@ export default function CategoryCardEvent({ event, isFavourite, toggleFavourite 
             <h3>{event.name}</h3>
             <p>{event.date}</p>
             <p>{event.time}</p>
+            <p>{event.country}</p>
+            <p>{event.city}</p>
+            <p>{event.venue}</p>
         </article>
     );
 }

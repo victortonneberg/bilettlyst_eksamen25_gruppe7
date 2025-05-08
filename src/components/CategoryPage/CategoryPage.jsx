@@ -35,7 +35,8 @@ export default function CategoryPage() {
         const cityInfo = cityMap[city] || { name: city, countryCode: "" };
         // henter props fra eventMap og cityMap for å bruke i URL
         // har med "&keyword=${cityInfo.name + search}" og + search for å kunne søke fra søkefeltet
-        const apiAttraction = `https://app.ticketmaster.com/discovery/v2/attractions?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&segmentId=${eventMap[slug]?.id || slug}&countryCode=${cityInfo.countryCode}&keyword=${cityInfo.name + search}&startDateTime=${date}`;
+        // legger på size for å rendre ut færre elementer
+        const apiAttraction = `https://app.ticketmaster.com/discovery/v2/attractions?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&segmentId=${eventMap[slug]?.id || slug}&countryCode=${cityInfo.countryCode}&keyword=${cityInfo.name + search}&startDateTime=${date}&size=8`;
         // henter data fra APIet og setter det inn i attractions state
         fetch(apiAttraction)
             .then((response) => response.json())
@@ -52,11 +53,10 @@ export default function CategoryPage() {
     // stort sett mye av det samme som getAttractions
     const getEvent = () => {
         const cityInfo = cityMap[city] || { name: city, countryCode: "" };
-        const apiEvent = `https://app.ticketmaster.com/discovery/v2/events?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&city=${cityInfo.name}&segmentId=${eventMap[slug]?.id || slug}&countryCode=${cityInfo.countryCode}&startDateTime=${date}&keyword=${search}`;
+        const apiEvent = `https://app.ticketmaster.com/discovery/v2/events?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&city=${cityInfo.name}&segmentId=${eventMap[slug]?.id || slug}&countryCode=${cityInfo.countryCode}&startDateTime=${date}&keyword=${search}&size=8`;
         fetch(apiEvent)
             .then((response) => response.json())
             .then((data) => {
-                console.log("Data fra API:", data);
                 setEvents(data._embedded?.events || []);
             })
             .catch((error) => {
@@ -68,7 +68,7 @@ export default function CategoryPage() {
     // stort sett mye av det samme som getAttractions
     const getVenue = () => {
         const cityInfo = cityMap[city] || { name: city, countryCode: "" };
-        const apiVenue = `https://app.ticketmaster.com/discovery/v2/venues?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&city=${cityInfo.name}&countryCode=${cityInfo.countryCode}&locale=*&keyword=${cityInfo.name + search}&startDateTime=${date}`;
+        const apiVenue = `https://app.ticketmaster.com/discovery/v2/venues?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&city=${cityInfo.name}&countryCode=${cityInfo.countryCode}&locale=*&keyword=${cityInfo.name + search}&startDateTime=${date}&size=8`;
         fetch(apiVenue)
             .then((response) => response.json())
             .then((data) => {
@@ -128,40 +128,45 @@ export default function CategoryPage() {
             return updatedFavourite;
         });
     };
-    
+
     useEffect(() => {
         const storedFavourites = JSON.parse(localStorage.getItem("favourites")) || [];
         setFavourite(storedFavourites);
     }, []);
     
-            return (
+            return (    
             <>
             <h1>{slug}</h1>
             <section id="categoryPage-filter">
                 <h3>Filtrert søk</h3>
                 <p>By:</p>
+                {/* har med funksjonen som endrer by */}
                 <select name="By" id="city" value={city} onChange={handleCityChange}>
                     <option value="oslo">Oslo</option>
                     <option value="stockholm">Stockholm</option>
                     <option value="Washington">Washington</option>
                 </select>
                 <p>Filtrer etter land:</p>
+                {/* har med funksjonen som endrer land */}
                 <select name="Land" id="country" value={country} onChange={handleCountry}>
                     <option value="NO">Norge</option>
                     <option value="SE">Sverige</option>
                     <option value="US">USA</option>
                 </select>
                 <p>Filtrer etter dato:</p>
+                {/* filtrerer etter date */}
                 <input type="date" value={date} onChange={handleDate} />
                 <p>Søk etter event, attraksjon eller spillested</p>
+                {/* tar imot input fra feltet */}
                 <input type="text" value={search} onChange={handleSearch} placeholder="Søk her"/>
+                {/* fetchdata slik at all input kjøres samtidig */}
                 <button type="button" onClick={fetchData}>Søk</button>
             </section>
             <section id="categoryPage-attraksjoner">
             <h2>Attraksjoner</h2>
             {attractions.length > 0 ? (
-                attractions.map(attraction => (
-                    <CategoryCardAttraction
+                attractions.map((attraction) => (
+                <CategoryCardAttraction
                         key={attraction.id}
                         attraction={{
                             id: attraction.id,
@@ -179,17 +184,19 @@ export default function CategoryPage() {
             <section id="categoryPage-arrangementer">
                 <h2>Arrangementer</h2>
                 {events.length > 0 ? (
-                    events.map((event) => (
+                    events.map((eventItem) => (
                         <CategoryCardEvent
-                            key={event.id}
+                            key={eventItem.id}
                             event={{
-                                id: event.id,
-                                name: event.name,
-                                image: event.images?.[0]?.url,
-                                date: event.dates?.start?.localDate,
-                                time: event.dates?.start?.localTime,
+                                id: eventItem.id,
+                                name: eventItem.name,
+                                image: eventItem.images?.[0]?.url,
+                                country: eventItem._embedded?.venues[0]?.country?.name,
+                                city: eventItem._embedded?.venues[0]?.city?.name,
+                                date: eventItem.dates?.start?.localDate,
+                                time: eventItem.dates?.start?.localTime,
                             }}
-                            isFavourite={favourite.includes(event.id)}
+                            isFavourite={favourite.includes(eventItem.id)}
                             toggleFavourite={toggleFavourite}
                         />
                     ))
@@ -197,28 +204,28 @@ export default function CategoryPage() {
                     <p>Ingen arrangementer funnet</p>
                 )}
             </section>
-                <section id="categoryPage-spillesteder">
-                <h2>Spillesteder</h2>
-                {venue.length > 0 ? (
-                    venue.map((venue) => (
-                        <CategoryCardVenue
-                            key={venue.id}
-                            venue={{
-                                id: venue.id,  
-                                name: venue.name,   
-                                address: venue.address?.line1,
-                                city: venue.city?.name,
-                                image: venue.images?.[0]?.url,
-                            }}
-                            isFavourite={favourite.includes(venue.id)}
-                            toggleFavourite={toggleFavourite}
-                        />
-                    ))
-                ) : (
-                    <p>Ingen spillesteder funnet</p>
-                )}
-</section>
-               
-            </>
+            <section id="categoryPage-spillesteder">
+            <h2>Spillesteder</h2>
+            {venue.length > 0 ? (
+                venue.map((venueItem) => (
+                    <CategoryCardVenue
+                        key={venueItem.id}
+                        venue={{
+                            id: venueItem.id,  
+                            name: venueItem.name,   
+                            city: venueItem.city?.name,
+                            image: venueItem.images?.[0]?.url,
+                            country: venueItem.country?.name,
+                        }}
+                        isFavourite={favourite.includes(venueItem.id)}
+                        toggleFavourite={toggleFavourite}
+                    />
+                ))
+            ) : (
+                <p>Ingen spillesteder funnet</p>
+            )}
+            </section>
+
+        </>
         );
     }
