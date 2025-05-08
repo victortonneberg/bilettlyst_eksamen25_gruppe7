@@ -12,6 +12,7 @@ export default function EventCard({
   showFavouriteButton = false,
   isFavourite = false,
   toggleFavourite,
+  showFestivalPassButtons = false,
 }) {
   return (
     <article className="festivalCard">
@@ -44,6 +45,13 @@ export default function EventCard({
 
       {/* Viser kun Sanity-data hvis prop showSanityInfo={true} */}
       {showSanityInfo && <h3>{event.title}</h3>}
+
+      {showFestivalPassButtons && (
+        <>
+          <button id="kjop">Kjøp</button>
+          <button id="handlevogn">Legg til i ønskeliste</button>
+        </>
+      )}
     </article>
   );
 }

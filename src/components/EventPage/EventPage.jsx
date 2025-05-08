@@ -14,7 +14,7 @@ export default function EventPage() {
     "Tons of Rock",
   ];
 
-  // Må føst fetche event, basert på id.
+  // Må først fetche event, basert på id.
   useEffect(() => {
     if (id) {
       fetch(
@@ -54,6 +54,15 @@ export default function EventPage() {
 
   return (
     <>
+      <article id="eventHeader">
+        <h1>{event._embedded.attractions[0]?.name}</h1>
+        <p>
+          Sjanger: {event.classifications?.[0]?.segment?.name || ""},{" "}
+          {event.classifications?.[0]?.genre?.name || ""},{" "}
+          {event.classifications?.[0]?.subGenre?.name || ""}
+        </p>
+        <p>Følg oss på sosiale medier: </p>
+      </article>
       <h2>Festivalpass</h2>
       <section className="festivals-grid">
         {festivalEvents.length > 0 ? (
@@ -65,11 +74,28 @@ export default function EventPage() {
                 name: pass.name,
                 image: pass.images?.[0]?.url,
               }}
+              showFestivalPassButtons={true}
             />
           ))
         ) : (
           <p>Ingen festivalpass funnet.</p>
         )}
+      </section>
+      <h3>Artister</h3>
+      <section id="artistCardContainer">
+        <article id="eventArtistCard">
+          {event._embedded?.attractions?.length > 0 ? (
+            event._embedded.attractions.map((artist) => (
+              <ArtistCard
+                key={artist?.id || "Ukjent artist ID"}
+                name={artist?.name || "Ukjent artist"}
+                image={artist?.images?.[0]?.url || "Ukjent artist bilde"}
+              />
+            ))
+          ) : (
+            <p>Ingen artister funnet</p>
+          )}
+        </article>
       </section>
     </>
   );
