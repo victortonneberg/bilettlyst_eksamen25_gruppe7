@@ -15,6 +15,7 @@ export default function EventCard({
   toggleFavourite,
   showFestivalPassButtons = false,
 }) {
+  /* Kilde for conditional rendering: https://piercefrank10.medium.com/short-circuit-evaluation-conditional-rendering-a2dbc2220176 */
   return (
     <article className="festivalCard">
       {showTicketMasterInfo && (
@@ -44,6 +45,7 @@ export default function EventCard({
         </>
       )}
 
+      {/* Viser kun showFestivalDetails og showFestivalButtons hvis props={true} */}
       {showFestivalDetails && (
         <>
           <p>Dato: {event.date}</p>
@@ -54,15 +56,15 @@ export default function EventCard({
         </>
       )}
 
-      {/* Viser kun Sanity-data hvis prop showSanityInfo={true} */}
-      {showSanityInfo && <h3>{event.title}</h3>}
-
       {showFestivalPassButtons && (
         <>
           <button id="kjop">Kjøp</button>
           <button id="handlevogn">Legg til i ønskeliste</button>
         </>
       )}
+
+      {/* Viser kun Sanity-data hvis prop showSanityInfo={true} */}
+      {showSanityInfo && <h3>{event.title}</h3>}
     </article>
   );
 }
