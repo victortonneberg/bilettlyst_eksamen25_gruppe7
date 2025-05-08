@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import EventCard from "./EventCard";
+import EventCard from "../SharedComponents/EventCard";
 import ArtistCard from "./ArtistCard";
 
 export default function EventPage() {
@@ -52,5 +52,25 @@ export default function EventPage() {
 
   if (!event) return <p>Laster inn eventet....</p>;
 
-  return <></>;
+  return (
+    <>
+      <h2>Festivalpass</h2>
+      <section className="festivals-grid">
+        {festivalEvents.length > 0 ? (
+          festivalEvents.map((pass) => (
+            <EventCard
+              key={pass.id}
+              event={{
+                id: pass.id,
+                name: pass.name,
+                image: pass.images?.[0]?.url,
+              }}
+            />
+          ))
+        ) : (
+          <p>Ingen festivalpass funnet.</p>
+        )}
+      </section>
+    </>
+  );
 }
