@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import FestivalCard from "./FestivalCard";
 import "../../assets/styles/HomePage/Home.scss";
 import EventCard from "../SharedComponents/EventCard";
+import { Link } from "react-router-dom";
 
 export default function FeaturedFestivals() {
   const festivalIds = [
@@ -47,17 +48,19 @@ export default function FeaturedFestivals() {
       <section className="festivals-grid">
         {festivals.length > 0 ? (
           festivals.map((event) => (
-            <EventCard
+            <Link
               key={event.id}
-              event={{
-                id: event.id,
-                name: event.name,
-                image: event.images?.[0]?.url,
-                date: event.dates?.start?.localDate,
-                time: event.dates?.start?.localTime,
-              }}
-              showLink={true}
-            />
+              to={`/events/${event.id}`}
+              className="festivalCard-Link"
+            >
+              <EventCard
+                event={{
+                  id: event.id,
+                  name: event.name,
+                  image: event.images?.[0]?.url,
+                }}
+              />
+            </Link>
           ))
         ) : (
           <p>Laster inn festivalene…</p>

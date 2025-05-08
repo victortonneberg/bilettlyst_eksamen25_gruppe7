@@ -181,7 +181,7 @@ export default function CategoryPage() {
       </section>
 
       <h2>Arrangementer</h2>
-      <section class="festivals-grid">
+      <section className="festivals-grid">
         {events.length > 0 ? (
           events.map((event) => (
             <EventCard
@@ -193,6 +193,8 @@ export default function CategoryPage() {
                 date: event.dates?.start?.localDate,
                 time: event.dates?.start?.localTime,
               }}
+              showDetails={true}
+              showFavouriteButton={true}
               isFavourite={favourite.includes(event.id)}
               toggleFavourite={toggleFavourite}
             />

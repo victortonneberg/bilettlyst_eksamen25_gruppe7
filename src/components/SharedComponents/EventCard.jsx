@@ -1,16 +1,15 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar as faSolidStar } from "@fortawesome/free-solid-svg-icons";
 import { faStar as faRegularStar } from "@fortawesome/free-regular-svg-icons";
 
 export default function EventCard({
   event,
-  showLink = false,
-  isFavourite,
+  showDetails = false,
+  showFavouriteButton = false,
+  isFavourite = false,
   toggleFavourite,
 }) {
-  //For bruk på CategoryPage:
   const formattedDate = event.date
     ? new Date(event.date).toLocaleDateString()
     : "Ukjent dato";
@@ -21,33 +20,32 @@ export default function EventCard({
       })
     : "Ukjent tid";
 
-  if (showLink) {
-    return (
-      <Link to={`/events/${event.id}`} className="festivalCard-Link">
-        <article className="festivalCard">
-          <img src={event.image} alt={"Bilde ikke funnet:  " + event.name} />
-          <h3>{event.name}</h3>
-        </article>
-      </Link>
-    );
-  }
-
   return (
     <article className="festivalCard">
       <img src={event.image} alt={"Bilde ikke funnet:  " + event.name} />
-      <button
-        onClick={() => toggleFavourite(event.id)}
-        style={{ background: "none", border: "none", cursor: "pointer" }}
-      >
-        <FontAwesomeIcon
-          icon={isFavourite ? faSolidStar : faRegularStar}
-          style={{ color: isFavourite ? "gold" : "black" }}
-        />
-      </button>
+
+      {/* Viser kun ønskeliste-button hvis prop showFavouriteButton={true} */}
+      {showFavouriteButton && (
+        <button
+          onClick={() => toggleFavourite(event.id)}
+          style={{ background: "none", border: "none", cursor: "pointer" }}
+        >
+          <FontAwesomeIcon
+            icon={isFavourite ? faSolidStar : faRegularStar}
+            style={{ color: isFavourite ? "gold" : "black" }}
+          />
+        </button>
+      )}
+
       <h3>{event.name}</h3>
-      <p>{event.date}</p>
-      <p>Dato: {formattedDate}</p>
-      <p>Tid: {formattedTime}</p>
+
+      {/* Viser kun ønskeliste-button hvis prop showDetails={true} */}
+      {showDetails && (
+        <>
+          <p>Dato: {formattedDate}</p>
+          <p>Tid: {formattedTime}</p>
+        </>
+      )}
     </article>
   );
 }
