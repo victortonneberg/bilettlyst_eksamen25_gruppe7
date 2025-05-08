@@ -34,10 +34,12 @@ export default function CategoryPage() {
     const getAttractions = () => {
         // må ha med citymap for å mappe ut fra objektet
         const cityInfo = cityMap[city] || { name: city, countryCode: "" };
+        const formattedDate = date ? `${date}T00:00:00Z` : "";
         // henter props fra eventMap og cityMap for å bruke i URL
         // har med "&keyword=${cityInfo.name + search}" og + search for å kunne søke fra søkefeltet
         // legger på size for å rendre ut færre elementer
-        const apiAttraction = `https://app.ticketmaster.com/discovery/v2/attractions?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&segmentId=${eventMap[slug]?.id || slug}&countryCode=${country || cityInfo.countryCode}&keyword=${cityInfo.name + search}&startDateTime=${date}&size=8`;
+        const apiDate = date ? `${date}T00:00:00Z` : "";
+    const apiAttraction = `https://app.ticketmaster.com/discovery/v2/attractions?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&segmentId=${eventMap[slug]?.id || slug}&countryCode=${country || cityInfo.countryCode}&keyword=${cityInfo.name + search}&startDateTime=${apiDate}&size=8`
         // henter data fra APIet og setter det inn i attractions state
         fetch(apiAttraction)
             .then((response) => response.json())
@@ -55,6 +57,7 @@ export default function CategoryPage() {
     const getEvent = () => {
         const cityInfo = cityMap[city] || { name: city, countryCode: "" };
         const apiEvent = `https://app.ticketmaster.com/discovery/v2/events?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&city=${cityInfo.name}&segmentId=${eventMap[slug]?.id || slug}&countryCode=${country || cityInfo.countryCode}&startDateTime=${date}&keyword=${search}&size=8`;
+    
         fetch(apiEvent)
             .then((response) => response.json())
             .then((data) => {
@@ -69,7 +72,9 @@ export default function CategoryPage() {
     // stort sett mye av det samme som getAttractions
     const getVenue = () => {
         const cityInfo = cityMap[city] || { name: city, countryCode: "" };
-        const apiVenue = `https://app.ticketmaster.com/discovery/v2/venues?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&city=${cityInfo.name}&countryCode=${country || cityInfo.countryCode}&locale=*&keyword=${cityInfo.name + search}&startDateTime=${date}&size=8`;
+        const apiDate = date ? `${date}T00:00:00Z` : "";
+    const apiVenue = `https://app.ticketmaster.com/discovery/v2/venues?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&city=${cityInfo.name}&countryCode=${country || cityInfo.countryCode}&locale=*&keyword=${cityInfo.name + search}&startDateTime=${apiDate}&size=8`;
+
         fetch(apiVenue)
             .then((response) => response.json())
             .then((data) => {
@@ -87,7 +92,7 @@ export default function CategoryPage() {
         getEvent();
         getAttractions();
         getVenue();
-    }, [slug]); // Kun slug som avhengighet
+    }, [slug, date]); 
     
     const fetchData = () => {
         // Kjøres kun når brukeren trykker på søkeknappen
@@ -107,7 +112,8 @@ export default function CategoryPage() {
     };
 
     const handleDate = (e) => {
-        setDate(e.target.value);
+        const selectedDate = e.target.value;
+        setDate(`${selectedDate}T00:00:00Z`); 
     };
 
     const handleCountry = (e) => {
@@ -139,10 +145,10 @@ export default function CategoryPage() {
                 <p>By:</p>
                 {/* har med funksjonen som endrer by */}
                 <select name="By" id="city" value={city} onChange={handleCityChange}>
-                    <option value="oslo">Oslo</option>
-                    <option value="stockholm">Stockholm</option>
-                    <option value="Washington">Washington</option>
-                </select>
+                <option value="Oslo">Oslo</option>
+                <option value="Stockholm">Stockholm</option>
+                <option value="Washington">Washington</option>
+            </select>
                 <p>Filtrer etter land:</p>
                 {/* har med funksjonen som endrer land */}
                 <select name="Land" id="country" value={country} onChange={handleCountry}>
