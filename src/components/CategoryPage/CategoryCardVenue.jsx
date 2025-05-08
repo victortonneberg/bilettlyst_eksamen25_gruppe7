@@ -20,7 +20,7 @@ export default function CategoryCardVenue({
         />
       </button>
       <h3>{venue.name}</h3>
-      <p>{venue.address}</p>
+      <p>{venue.country}</p>
       <p>{venue.city}</p>
     </article>
   );
