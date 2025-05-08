@@ -118,12 +118,21 @@ export default function CategoryPage() {
     };
 
     const toggleFavourite = (id) => {
-        setFavourite((prevFavourite) =>
-            prevFavourite.includes(id)
-                ? prevFavourite.filter((itemId) => itemId !== id)
-                : [...prevFavourite, id]
-        );
+        setFavourite((prevFavourite) => {
+            const updatedFavourite = prevFavourite.includes(id)
+                ? prevFavourite.filter((itemId) => itemId !== id) 
+                : [...prevFavourite, id];
+    
+            // Lagre i localStorage
+            localStorage.setItem("favourites", JSON.stringify(updatedFavourite));
+            return updatedFavourite;
+        });
     };
+    
+    useEffect(() => {
+        const storedFavourites = JSON.parse(localStorage.getItem("favourites")) || [];
+        setFavourite(storedFavourites);
+    }, []);
     
             return (
             <>
@@ -191,17 +200,17 @@ export default function CategoryPage() {
                 <section id="categoryPage-spillesteder">
                 <h2>Spillesteder</h2>
                 {venue.length > 0 ? (
-                    venue.map((v) => (
+                    venue.map((venue) => (
                         <CategoryCardVenue
-                            key={v.id}
+                            key={venue.id}
                             venue={{
-                                id: v.id,  
-                                name: v.name,   
-                                address: v.address?.line1,
-                                city: v.city?.name,
-                                image: v.images?.[0]?.url,
+                                id: venue.id,  
+                                name: venue.name,   
+                                address: venue.address?.line1,
+                                city: venue.city?.name,
+                                image: venue.images?.[0]?.url,
                             }}
-                            isFavourite={favourite.includes(v.id)}
+                            isFavourite={favourite.includes(venue.id)}
                             toggleFavourite={toggleFavourite}
                         />
                     ))
