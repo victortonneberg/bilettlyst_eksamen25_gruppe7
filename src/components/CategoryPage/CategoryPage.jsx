@@ -126,7 +126,6 @@ export default function CategoryPage() {
 
   return (
     <>
-      <h1>{slug}</h1>
       <section id="categoryPage-filter">
         <h3>Filtrert søk</h3>
         <p>By:</p>

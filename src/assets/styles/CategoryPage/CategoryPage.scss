@@ -1,7 +1,3 @@
-h1 {
-  text-transform: uppercase;
-}
-
 #categoryPage-filter {
   display: flex;
   flex-direction: column;
@@ -45,55 +41,6 @@ h1 {
     margin-left: 0;
   }
 }
-#categoryPage-arrangementer,
-#categoryPage-attraksjoner,
-#categoryPage-spillesteder {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  gap: 1rem;
-  h2 {
-    flex-direction: column;
-    width: 100%;
-  }
-}
-
-.attractionCard,
-.eventCard,
-.venueCard {
-  display: flex;
-  flex-direction: column;
-  height: 15rem;
-  width: 20%;
-  border: 1px solid #ccc;
-  border-radius: 5%;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  margin: auto;
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 5%;
-  }
-  button {
-    margin: 0.5rem;
-    font-size: 15px;
-    align-self: flex-start;
-  }
-  h3 {
-    margin: 0;
-    font-size: 1rem;
-    color: #000;
-  }
-  p {
-    margin: 0;
-    font-size: 1rem;
-    color: #000;
-    text-align: left;
-  }
-}
 
 @media (max-width: 800px) {
   #categoryPage-filter {
@@ -102,23 +49,6 @@ h1 {
     input,
     button {
       width: 80%;
-    }
-  }
-
-  #categoryPage-arrangementer,
-  #categoryPage-attraksjoner,
-  #categoryPage-spillesteder {
-    flex-direction: row;
-    gap: 0.5rem;
-  }
-
-  .attractionCard,
-  .eventCard,
-  .venueCard {
-    width: 45%;
-    height: auto;
-    img {
-      height: 10rem;
     }
   }
 }
