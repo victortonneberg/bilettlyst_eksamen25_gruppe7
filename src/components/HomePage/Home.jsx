@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
-import FestivalCard from "./FestivalCard";
 import "../../assets/styles/HomePage/Home.scss";
 import EventCard from "../SharedComponents/EventCard";
 import { Link } from "react-router-dom";
 
-export default function FeaturedFestivals() {
+export default function Home() {
   const festivalIds = [
     "Z698xZb_Z16vf7eZZV",
     "Z698xZb_Z17q3f6",

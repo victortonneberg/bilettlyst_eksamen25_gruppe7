@@ -6,6 +6,7 @@ import { fetchUsers } from "../../sanity/fetchUsers";
 import SanityUserCard from "../Dashboard/SanityUserCard";
 import SanityEventCard from "../Dashboard/SanityEventCard";
 import EventCard from "../SharedComponents/EventCard";
+import "../../assets/styles/SharedComponents/EventCard.scss";
 
 export default function Dashboard() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -62,7 +63,7 @@ export default function Dashboard() {
             ))}
           </section>
           <h2 className="all-events">Alle events</h2>
-          <section className="SanityEventCard">
+          <section className="dashboard-all-events">
             {events?.map((event) => (
               <EventCard
                 key={event._id}

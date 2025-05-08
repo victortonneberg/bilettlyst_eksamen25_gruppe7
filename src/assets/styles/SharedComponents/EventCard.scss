@@ -1,0 +1,49 @@
+.festivals-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.festivalCard-Link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.festivalCard {
+  background: rgb(243, 243, 239);
+  border-radius: 0.5rem;
+  overflow: hidden;
+  box-shadow: 0 4px 12px black(0, 0, 0, 0.09);
+  display: flex;
+  flex-direction: column;
+  border: 2px solid transparent;
+
+  img {
+    height: 170px;
+  }
+
+  button {
+    text-align: start;
+    margin: 0.5rem 1rem 0;
+  }
+
+  h3 {
+    font-size: 1rem;
+    margin: 0.75rem 1rem;
+    flex-grow: 1;
+    color: black;
+    line-height: 1.5;
+  }
+
+  p {
+    margin: 0.75rem 1rem;
+  }
+}
+
+/* Kilde for border-hover effekt, uten at andre elementer flytter seg
+https://stackoverflow.com/questions/9612758/add-a-css-border-on-hover-without-moving-the-element
+*/
+.festivalCard:hover {
+  border: 2px solid black;
+}

@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import CategoryCardAttraction from "./CategoryCardAttraction";
-import CategoryCardEvent from "./CategoryCardEvent";
 import CategoryCardVenue from "./CategoryCardVenue";
 import EventCard from "../SharedComponents/EventCard";
 
@@ -179,11 +178,11 @@ export default function CategoryPage() {
           <p>Ingen attraksjoner funnet</p>
         )}
       </section>
-      <section id="categoryPage-arrangementer">
-        <h2>Arrangementer</h2>
+      <h2>Arrangementer</h2>
+      <section className="festivals-grid">
         {events.length > 0 ? (
           events.map((event) => (
-            <CategoryCardEvent
+            <EventCard
               key={event.id}
               event={{
                 id: event.id,
@@ -192,6 +191,8 @@ export default function CategoryPage() {
                 date: event.dates?.start?.localDate,
                 time: event.dates?.start?.localTime,
               }}
+              showDetails={true}
+              showFavouriteButton={true}
               isFavourite={favourite.includes(event.id)}
               toggleFavourite={toggleFavourite}
             />
