@@ -5,6 +5,8 @@ import { faStar as faRegularStar } from "@fortawesome/free-regular-svg-icons";
 
 export default function EventCard({
   event,
+  showTicketMasterInfo = true,
+  showSanityInfo = false,
   showDetails = false,
   showFavouriteButton = false,
   isFavourite = false,
@@ -22,7 +24,9 @@ export default function EventCard({
 
   return (
     <article className="festivalCard">
-      <img src={event.image} alt={"Bilde ikke funnet:  " + event.name} />
+      {showTicketMasterInfo && (
+        <img src={event.image} alt={"Bilde ikke funnet:  " + event.name} />
+      )}
 
       {/* Viser kun ønskeliste-button hvis prop showFavouriteButton={true} */}
       {showFavouriteButton && (
@@ -37,15 +41,18 @@ export default function EventCard({
         </button>
       )}
 
-      <h3>{event.name}</h3>
+      {showTicketMasterInfo && <h3>{event.name}</h3>}
 
       {/* Viser kun ønskeliste-button hvis prop showDetails={true} */}
       {showDetails && (
         <>
-          <p>Dato: {formattedDate}</p>
-          <p>Tid: {formattedTime}</p>
+          <p>Dato: {event.date}</p>
+          <p>Tid: {event.time}</p>
         </>
       )}
+
+      {/* Viser kun Sanity-data hvis prop showSanityInfo={true} */}
+      {showSanityInfo && <h3>{event.title}</h3>}
     </article>
   );
 }

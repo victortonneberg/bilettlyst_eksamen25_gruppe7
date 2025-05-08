@@ -1,37 +1,38 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState } from "react";
 // import "./../assets/styles/Dashboard/Dashboard.scss"
-import "../../assets/styles/Dashboard/Dashboard.scss"
-import { fetchEvents } from "../../sanity/fetchEvents"
-import { fetchUsers } from "../../sanity/fetchUsers"
-import SanityUserCard from "../Dashboard/SanityUserCard"
-import SanityEventCard from "../Dashboard/SanityEventCard"
+import "../../assets/styles/Dashboard/Dashboard.scss";
+import { fetchEvents } from "../../sanity/fetchEvents";
+import { fetchUsers } from "../../sanity/fetchUsers";
+import SanityUserCard from "../Dashboard/SanityUserCard";
+import SanityEventCard from "../Dashboard/SanityEventCard";
+import EventCard from "../SharedComponents/EventCard";
 
 export default function Dashboard() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
-  const [events, setEvents] = useState([])
-  const [users, setUsers] = useState([])
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [events, setEvents] = useState([]);
+  const [users, setUsers] = useState([]);
 
   const handleSubmit = (e) => {
-    e.preventDefault()
-    setIsLoggedIn(true)
-  }
+    e.preventDefault();
+    setIsLoggedIn(true);
+  };
 
   const getEvents = async () => {
-    const data = await fetchEvents()
+    const data = await fetchEvents();
     // console.log("SanityEvents: ", data)
-    setEvents(data)
-  }
+    setEvents(data);
+  };
 
   const getUsers = async () => {
-    const data = await fetchUsers()
+    const data = await fetchUsers();
     // console.log("SanityUsers: ", data)
-    setUsers(data)
-  }
+    setUsers(data);
+  };
 
   useEffect(() => {
-    getEvents()
-    getUsers()
-  }, [])
+    getEvents();
+    getUsers();
+  }, []);
 
   return (
     <>
@@ -63,11 +64,16 @@ export default function Dashboard() {
           <h2 className="all-events">Alle events</h2>
           <section className="SanityEventCard">
             {events?.map((event) => (
-              <SanityEventCard key={event._id} event={event} />
+              <EventCard
+                key={event._id}
+                event={event}
+                showTicketMasterInfo={false}
+                showSanityInfo={true}
+              />
             ))}
           </section>
         </>
       )}
     </>
-  )
+  );
 }

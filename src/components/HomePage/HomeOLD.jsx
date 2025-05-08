@@ -56,7 +56,7 @@ export default function FeaturedFestivals() {
               <EventCard
                 event={{
                   id: event.id,
-                  name: event._embedded?.attractions[0]?.name,
+                  name: event.name,
                   image: event.images?.[0]?.url,
                 }}
               />
