@@ -34,17 +34,15 @@ export default function CategoryPage() {
     const getAttractions = () => {
         // må ha med citymap for å mappe ut fra objektet
         const cityInfo = cityMap[city] || { name: city, countryCode: "" };
-        const formattedDate = date ? `${date}T00:00:00Z` : "";
         // henter props fra eventMap og cityMap for å bruke i URL
         // har med "&keyword=${cityInfo.name + search}" og + search for å kunne søke fra søkefeltet
         // legger på size for å rendre ut færre elementer
-        const apiDate = date ? `${date}T00:00:00Z` : "";
-    const apiAttraction = `https://app.ticketmaster.com/discovery/v2/attractions?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&segmentId=${eventMap[slug]?.id || slug}&countryCode=${country || cityInfo.countryCode}&keyword=${cityInfo.name + search}&startDateTime=${apiDate}&size=8`
+    const apiAttraction = `https://app.ticketmaster.com/discovery/v2/attractions?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&segmentId=${eventMap[slug]?.id || slug}&countryCode=${country || cityInfo.countryCode}&keyword=${cityInfo.name + search}&size=8`
         // henter data fra APIet og setter det inn i attractions state
         fetch(apiAttraction)
             .then((response) => response.json())
             .then((data) => {
-                setAttractions(data._embedded?.attractions || []);
+                setAttractions(data?._embedded?.attractions || []);
             })
             // feil melding om APIet ikke blir hentet, som skjer ofte når man får kun hente 5 ganger i sekundet
             .catch((error) => {
@@ -56,12 +54,21 @@ export default function CategoryPage() {
     // stort sett mye av det samme som getAttractions
     const getEvent = () => {
         const cityInfo = cityMap[city] || { name: city, countryCode: "" };
-        const apiEvent = `https://app.ticketmaster.com/discovery/v2/events?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&city=${cityInfo.name}&segmentId=${eventMap[slug]?.id || slug}&countryCode=${country || cityInfo.countryCode}&startDateTime=${date}&keyword=${search}&size=8`;
+        const apiDate = date ? `${date}T00:00:00Z` : "";
+        const apiEvent = `https://app.ticketmaster.com/discovery/v2/events?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&city=${cityInfo.name}&segmentId=${eventMap[slug]?.id || slug}&countryCode=${country || cityInfo.countryCode}&startDateTime=${apiDate}&keyword=${search}&size=8`;
     
         fetch(apiEvent)
             .then((response) => response.json())
             .then((data) => {
-                setEvents(data._embedded?.events || []);
+                if (data._embedded?.events) {
+                    const formattedEvents = data._embedded.events.map((event) => ({
+                        ...event,
+                        formattedDate: formatDateForInput(event.dates.start.localDate), 
+                    }));
+                    setEvents(formattedEvents);
+                } else {
+                    setEvents([]);
+                }
             })
             .catch((error) => {
                 console.log("Skjedde feil under lasting: ", error);
@@ -72,13 +79,12 @@ export default function CategoryPage() {
     // stort sett mye av det samme som getAttractions
     const getVenue = () => {
         const cityInfo = cityMap[city] || { name: city, countryCode: "" };
-        const apiDate = date ? `${date}T00:00:00Z` : "";
-    const apiVenue = `https://app.ticketmaster.com/discovery/v2/venues?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&city=${cityInfo.name}&countryCode=${country || cityInfo.countryCode}&locale=*&keyword=${cityInfo.name + search}&startDateTime=${apiDate}&size=8`;
+        const apiVenue = `https://app.ticketmaster.com/discovery/v2/venues?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&city=${cityInfo.name}&countryCode=${country || cityInfo.countryCode}&locale=*&keyword=${cityInfo.name + search}&size=8`;
 
         fetch(apiVenue)
             .then((response) => response.json())
             .then((data) => {
-                setVenue(data._embedded?.venues || []);
+                setVenue(data?._embedded?.venues || []);
             })
             .catch((error) => {
                 console.error("Skjedde feil under lasting:", error);
@@ -112,8 +118,12 @@ export default function CategoryPage() {
     };
 
     const handleDate = (e) => {
-        const selectedDate = e.target.value;
-        setDate(`${selectedDate}T00:00:00Z`); 
+        setDate(e.target.value); // Bruker direkte YYYY-MM-DD
+    };
+    
+
+    const formatDateForInput = (apiDate) => {
+        return apiDate.split("T")[0]; // Fjerner tid og beholder kun "YYYY-MM-DD"
     };
 
     const handleCountry = (e) => {
@@ -158,7 +168,7 @@ export default function CategoryPage() {
                 </select>
                 <p>Filtrer etter dato:</p>
                 {/* filtrerer etter date */}
-                <input type="date" value={date} onChange={handleDate} />
+                <input type="date" value={date ? date.split("T")[0] : ""} onChange={handleDate} />
                 <p>Søk etter event, attraksjon eller spillested</p>
                 {/* tar imot input fra feltet */}
                 <input type="text" value={search} onChange={handleSearch} placeholder="Søk her"/>
@@ -174,7 +184,7 @@ export default function CategoryPage() {
                         attraction={{
                             id: attraction.id,
                             name: attraction.name,
-                            image: attraction.images?.[0]?.url,
+                            image: attraction.images?.[0]?.url || "",
                         }}
                         isFavourite={favourite.includes(attraction.id)}
                         toggleFavourite={toggleFavourite}
@@ -193,7 +203,7 @@ export default function CategoryPage() {
                             event={{
                                 id: eventItem.id,
                                 name: eventItem.name,
-                                image: eventItem.images?.[0]?.url,
+                                image: eventItem.images?.[0]?.url || "",
                                 country: eventItem._embedded?.venues[0]?.country?.name,
                                 city: eventItem._embedded?.venues[0]?.city?.name,
                                 date: eventItem.dates?.start?.localDate,
@@ -217,7 +227,7 @@ export default function CategoryPage() {
                             id: venueItem.id,  
                             name: venueItem.name,   
                             city: venueItem.city?.name,
-                            image: venueItem.images?.[0]?.url,
+                            image: venueItem.images?.[0]?.url || "",
                             country: venueItem.country?.name,
                         }}
                         isFavourite={favourite.includes(venueItem.id)}
