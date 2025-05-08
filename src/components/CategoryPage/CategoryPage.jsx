@@ -33,7 +33,7 @@ export default function CategoryPage() {
       eventMap[slug]?.id || slug
     }&countryCode=${cityInfo.countryCode}&keyword=${
       cityInfo.name + search
-    }&startDateTime=${date}`;
+    }&startDateTime=${date}&size=5`;
     fetch(apiAttraction)
       .then((response) => response.json())
       .then((data) => {
@@ -51,7 +51,7 @@ export default function CategoryPage() {
       cityInfo.name
     }&segmentId=${eventMap[slug]?.id || slug}&countryCode=${
       cityInfo.countryCode
-    }&startDateTime=${date}&keyword=${search}`;
+    }&startDateTime=${date}&keyword=${search}&size=5`;
     fetch(apiEvent)
       .then((response) => response.json())
       .then((data) => {
@@ -70,7 +70,7 @@ export default function CategoryPage() {
       cityInfo.name
     }&countryCode=${cityInfo.countryCode}&locale=*&keyword=${
       cityInfo.name + search
-    }&startDateTime=${date}`;
+    }&startDateTime=${date}&size=5`;
     fetch(apiVenue)
       .then((response) => response.json())
       .then((data) => {
@@ -159,8 +159,8 @@ export default function CategoryPage() {
           Søk
         </button>
       </section>
-      <section id="categoryPage-attraksjoner">
-        <h2>Attraksjoner</h2>
+      <h2>Attraksjoner</h2>
+      <section className="festivals-grid">
         {attractions.length > 0 ? (
           attractions.map((attraction) => (
             <CategoryCardAttraction
@@ -201,8 +201,8 @@ export default function CategoryPage() {
           <p>Ingen arrangementer funnet</p>
         )}
       </section>
-      <section id="categoryPage-spillesteder">
-        <h2>Spillesteder</h2>
+      <h2>Spillesteder</h2>
+      <section className="festivals-grid">
         {venue.length > 0 ? (
           venue.map((v) => (
             <CategoryCardVenue

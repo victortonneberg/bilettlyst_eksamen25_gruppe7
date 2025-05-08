@@ -4,7 +4,6 @@ import "../../assets/styles/Dashboard/Dashboard.scss";
 import { fetchEvents } from "../../sanity/fetchEvents";
 import { fetchUsers } from "../../sanity/fetchUsers";
 import SanityUserCard from "../Dashboard/SanityUserCard";
-import SanityEventCard from "../Dashboard/SanityEventCard";
 import EventCard from "../SharedComponents/EventCard";
 import "../../assets/styles/SharedComponents/EventCard.scss";
 
