@@ -13,8 +13,8 @@ export default function EventPage() {
     "Skeikampenfestivalen",
     "Tons of Rock",
   ];
-  console.log("useParams-ID:", id);
 
+  // Må føst fetche event, basert på id.
   useEffect(() => {
     if (id) {
       fetch(
@@ -23,46 +23,34 @@ export default function EventPage() {
         .then((response) => response.json())
         .then((data) => {
           setEvent(data);
-          //console.log("Event data:", data);
+          console.log("Hovedevent data:", data);
         })
         .catch((error) => {
           console.log("Feil ved henting av hovedevent:", error);
-          console.log("EventCard ID:", id);
         });
     }
   }, [id]);
 
+  // Henter alle attractions, fordi det er her festivalpassene ligger.
+  useEffect(() => {
+    if (event && event._embedded?.attractions?.length > 0) {
+      const festivalName = event._embedded.attractions[0]?.name;
+
+      fetch(
+        `https://app.ticketmaster.com/discovery/v2/events.json?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&keyword=${festivalName}&locale=*&size=6&countryCode=NO`
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          setFestivalEvents(data._embedded?.events || []);
+          console.log("FestivalPass:", data);
+        })
+        .catch((error) =>
+          console.log("Feil ved henting av festivalpass:", error)
+        );
+    }
+  }, [event]);
+
   if (!event) return <p>Laster inn eventet....</p>;
 
-  return (
-    <>
-      <article id="eventHeader">
-        <h1>{event.name}</h1>
-        <p>
-          Sjanger: {event.classifications?.[0]?.segment?.name || ""},{" "}
-          {event.classifications?.[0]?.genre?.name || ""},{" "}
-          {event.classifications?.[0]?.subGenre?.name || ""}
-        </p>
-        <p>Følg oss på sosiale medier: </p>
-        <h3>Festivalpass:</h3>
-      </article>
-
-      <h3>Artister</h3>
-      <section id="artistCardContainer">
-        <article id="eventArtistCard">
-          {event._embedded?.attractions?.length > 0 ? (
-            event._embedded.attractions.map((artist) => (
-              <ArtistCard
-                key={artist?.id || "Ukjent artist ID"}
-                name={artist?.name || "Ukjent artist"}
-                image={artist?.images?.[0]?.url || "Ukjent artist bilde"}
-              />
-            ))
-          ) : (
-            <p>Ingen artister funnet</p>
-          )}
-        </article>
-      </section>
-    </>
-  );
+  return <></>;
 }
