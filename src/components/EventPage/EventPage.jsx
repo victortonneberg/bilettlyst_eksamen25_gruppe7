@@ -62,6 +62,49 @@ export default function EventPage() {
           {event.classifications?.[0]?.subGenre?.name || ""}
         </p>
         <p>Følg oss på sosiale medier: </p>
+        {event._embedded?.attractions?.[0]?.externalLinks && (
+          <section className="socials">
+            {event._embedded.attractions[0].externalLinks.spotify?.[0]?.url && (
+              <p>
+                <a
+                  href={
+                    event._embedded.attractions[0].externalLinks.spotify[0].url
+                  }
+                  target="_blank"
+                >
+                  Spotify
+                </a>
+              </p>
+            )}
+            {event._embedded.attractions[0].externalLinks.instagram?.[0]
+              ?.url && (
+              <p>
+                <a
+                  href={
+                    event._embedded.attractions[0].externalLinks.instagram[0]
+                      .url
+                  }
+                  target="_blank"
+                >
+                  Instagram
+                </a>
+              </p>
+            )}
+            {event._embedded.attractions[0].externalLinks.homepage?.[0]
+              ?.url && (
+              <p>
+                <a
+                  href={
+                    event._embedded.attractions[0].externalLinks.homepage[0].url
+                  }
+                  target="_blank"
+                >
+                  Hjemmeside
+                </a>
+              </p>
+            )}
+          </section>
+        )}
       </article>
       <h2>Festivalpass</h2>
       <section className="festivals-grid">
@@ -73,8 +116,14 @@ export default function EventPage() {
                 id: pass.id,
                 name: pass.name,
                 image: pass.images?.[0]?.url,
+                date: pass.dates?.start?.localDate,
+                time: pass.dates?.start?.localTime,
+                venue: pass._embedded?.venues?.[0]?.name,
+                city: pass._embedded?.venues?.[0]?.city?.name,
+                country: pass._embedded?.venues?.[0]?.country?.name,
               }}
               showFestivalPassButtons={true}
+              showFestivalDetails={true}
             />
           ))
         ) : (

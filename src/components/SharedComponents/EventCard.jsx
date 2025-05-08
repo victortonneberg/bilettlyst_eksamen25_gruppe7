@@ -9,6 +9,7 @@ export default function EventCard({
   showTicketMasterInfo = true,
   showSanityInfo = false,
   showDetails = false,
+  showFestivalDetails = false,
   showFavouriteButton = false,
   isFavourite = false,
   toggleFavourite,
@@ -35,11 +36,21 @@ export default function EventCard({
 
       {showTicketMasterInfo && <h3>{event.name}</h3>}
 
-      {/* Viser kun ønskeliste-button hvis prop showDetails={true} */}
+      {/* Viser kun eventDetails hvis prop showDetails={true} */}
       {showDetails && (
         <>
           <p>Dato: {event.date}</p>
           <p>Tid: {event.time}</p>
+        </>
+      )}
+
+      {showFestivalDetails && (
+        <>
+          <p>Dato: {event.date}</p>
+          <p>Spillested: {event.venue}</p>
+          <p>
+            Sted: {event.city}, {event.country}
+          </p>
         </>
       )}
 
