@@ -179,12 +179,11 @@ export default function CategoryPage() {
           <p>Ingen attraksjoner funnet</p>
         )}
       </section>
-
-      <h2>Arrangementer</h2>
-      <section className="festivals-grid">
+      <section id="categoryPage-arrangementer">
+        <h2>Arrangementer</h2>
         {events.length > 0 ? (
           events.map((event) => (
-            <EventCard
+            <CategoryCardEvent
               key={event.id}
               event={{
                 id: event.id,
@@ -193,8 +192,6 @@ export default function CategoryPage() {
                 date: event.dates?.start?.localDate,
                 time: event.dates?.start?.localTime,
               }}
-              showDetails={true}
-              showFavouriteButton={true}
               isFavourite={favourite.includes(event.id)}
               toggleFavourite={toggleFavourite}
             />

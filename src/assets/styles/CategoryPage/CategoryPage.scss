@@ -1,10 +1,61 @@
+h1 {
+  text-transform: uppercase;
+}
+
+#categoryPage-filter {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  padding: 1rem;
+  align-items: center;
+  justify-content: center;
+  h3 {
+    margin: 0rem;
+    font-size: 1.5rem;
+    color: #000;
+  }
+
+  p {
+    font-size: 1.2rem;
+    margin-left: 2rem;
+    margin-bottom: 0.3rem;
+  }
+
+  select {
+    width: 30%;
+    background-color: #fff;
+    border: 1px solid #ccc;
+  }
+
+  input {
+    width: 30%;
+    background-color: #fff;
+    border: 1px solid #ccc;
+  }
+
+  button {
+    width: 40%;
+    color: #fff;
+    background: #000;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: 40px;
+    margin: 1rem;
+    margin-left: 0;
+  }
+}
 #categoryPage-arrangementer,
 #categoryPage-attraksjoner,
 #categoryPage-spillesteder {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  width: 100%;
+  gap: 1rem;
+  h2 {
+    flex-direction: column;
+    width: 100%;
+  }
 }
 
 .attractionCard,
@@ -12,13 +63,62 @@
 .venueCard {
   display: flex;
   flex-direction: column;
-  height: 20rem;
-  width: 20rem;
+  height: 15rem;
+  width: 20%;
   border: 1px solid #ccc;
-
+  border-radius: 5%;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin: auto;
   img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    border-radius: 5%;
+  }
+  button {
+    margin: 0.5rem;
+    font-size: 15px;
+    align-self: flex-start;
+  }
+  h3 {
+    margin: 0;
+    font-size: 1rem;
+    color: #000;
+  }
+  p {
+    margin: 0;
+    font-size: 1rem;
+    color: #000;
+    text-align: left;
+  }
+}
+
+@media (max-width: 800px) {
+  #categoryPage-filter {
+    flex-direction: column;
+    select,
+    input,
+    button {
+      width: 80%;
+    }
+  }
+
+  #categoryPage-arrangementer,
+  #categoryPage-attraksjoner,
+  #categoryPage-spillesteder {
+    flex-direction: row;
+    gap: 0.5rem;
+  }
+
+  .attractionCard,
+  .eventCard,
+  .venueCard {
+    width: 45%;
+    height: auto;
+    img {
+      height: 10rem;
+    }
   }
 }
