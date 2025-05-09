@@ -6,13 +6,12 @@ import { Link } from "react-router-dom"
 export default function Home() {
 
 
-
   const festivalIds = [
     "Z698xZb_Z16v7eGkFy",
     "Z698xZb_Z17q339",
     "Z698xZb_Z17q3qg",
     "Z698xZb_Z17qfaA",
-  ];
+  ]
   const [festivals, setFestivals] = useState([])
 
   const fetchFestivals = () => {
@@ -65,81 +64,67 @@ export default function Home() {
     setSelectedCity(cityName)
     fetchEventsByCity(cityName)
   }
-
   return (
     <>
-      <section>
-  <h2>Utvalgte festivaler</h2>
-  <ul className="festivals-grid">
-    {festivals.length > 0 ? (
-     festivals.map((festival) => (
-        <li key={festival.id}>
-        <Link to={`/events/${festival.id}`} className="festivalCard-Link">
-            <EventCard
-             event={{
-                id: festival.id,
-                name: festival._embedded?.attractions[0]?.name,
-                image: festival.images?.[0]?.url,
-             }}
-           />
-          </Link>
-        </li>
-      ))
-    ) : (
-      <li>
-        <p>Laster inn festivalene…</p>
-      </li>
-    )}
-  </ul>
-</section>
+     
+      <h2>Utvalgte festivaler</h2>
+      <section className="festivals-grid">
+        {festivals.length > 0 ? (
+          festivals.map((festival) => (
+            <Link
+              key={festival.id}
+              to={`/event/${festival.id}`}
+              className="festivalCard-Link"
+            >
+              <EventCard
+                event={{
+                  id: festival.id,
+                  name: festival._embedded?.attractions[0]?.name,
+                  image: festival.images?.[0]?.url,
+                }}
+              />
+            </Link>
+          ))
+        ) : (
+          <p>Laster inn festivalene…</p>
+        )}
+      </section>
 
-
-<section>
-  <h2>I {selectedCity} kan du oppleve:</h2>
-
-  <nav>
-    <ul className="city-buttons">
-      {availableCities.map((cityName) => (
-      <li key={cityName}>
-         <button
+      
+      <h2>I {selectedCity} kan du oppleve:</h2>
+      <div className="city-buttons">
+        {availableCities.map((cityName) => (
+          <button
+            key={cityName}
             onClick={() => handleCitySelection(cityName)}
             className={cityName === selectedCity ? "active" : ""}
           >
-          {cityName}
-      </button>
-      </li>
-     ))}
-    </ul>
-  </nav>
-
-  <ul className="festivals-grid">
-    {cityEvents.length > 0 ? (
-      cityEvents.map((event) => {
-      const venue = event._embedded?.venues?.[0] || {}
-    return (
-          <li key={event.id}>
-          <article>
+            {cityName}
+          </button>
+        ))}
+      </div>
+      <section className="festivals-grid">
+        {cityEvents.length > 0 ? (
+          cityEvents.map((event) => {
+            const venue = event._embedded?.venues?.[0] || {};
+            return (
               <EventCard
-             event={{
-                  id: event.id,
-                 name: event.name,
-                  image: event.images?.[0]?.url,
-                  city: venue.city?.name,
-                  country: venue.country?.name,
-                  date: event.dates?.start?.localDate,
-            }}
-            />
-        </article>
-          </li>
-        )
-      })
-    ) : (
-      <li>
-        <p>Laster inn arrangementer…</p>
-      </li>
-    )}
-  </ul>
-</section>
+                event={{
+                id: event.id,
+                name: event.name,
+                image: event.images?.[0]?.url,
+                city: venue.city?.name,
+                country: venue.country?.name,
+                date: event.dates?.start?.localDate,
+                }}
+                showCityDetails={true}  
+/>
+            );
+          })
+        ) : (
+          <p>Laster inn arrangementer…</p>
+        )}
+      </section>
     </>
-  )
+  );
 };
