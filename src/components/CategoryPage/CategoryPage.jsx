@@ -34,10 +34,11 @@ export default function CategoryPage() {
     const getAttractions = () => {
         // må ha med citymap for å mappe ut fra objektet
         const cityInfo = cityMap[city] || { name: city, countryCode: "" };
+        const countryCode = country || cityInfo.countryCode; 
         // henter props fra eventMap og cityMap for å bruke i URL
         // har med "&keyword=${cityInfo.name + search}" og + search for å kunne søke fra søkefeltet
         // legger på size for å rendre ut færre elementer
-    const apiAttraction = `https://app.ticketmaster.com/discovery/v2/attractions?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&segmentId=${eventMap[slug]?.id || slug}&countryCode=${country || cityInfo.countryCode}&keyword=${cityInfo.name + search}&size=8`
+        const apiAttraction = `https://app.ticketmaster.com/discovery/v2/attractions?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&segmentId=${eventMap[slug]?.id || slug}&countryCode=${countryCode}&keyword=${cityInfo.name + search}&size=8`;
         // henter data fra APIet og setter det inn i attractions state
         fetch(apiAttraction)
             .then((response) => response.json())
@@ -53,9 +54,10 @@ export default function CategoryPage() {
 
     // stort sett mye av det samme som getAttractions
     const getEvent = () => {
-    const cityInfo = cityMap[city] || { name: city, countryCode: "" };
-    const apiDate = date || "";
-        const apiEvent = `https://app.ticketmaster.com/discovery/v2/events?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&city=${cityInfo.name}&segmentId=${eventMap[slug]?.id || slug}&countryCode=${country || cityInfo.countryCode}&startDateTime=${apiDate}&keyword=${search}&size=8`;
+        const cityInfo = cityMap[city] || { name: city, countryCode: "" };
+        const countryCode = country || cityInfo.countryCode;
+        const apiDate = date || "";
+        const apiEvent = `https://app.ticketmaster.com/discovery/v2/events?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&city=${cityInfo.name}&segmentId=${eventMap[slug]?.id || slug}&countryCode=${countryCode}&startDateTime=${apiDate}&keyword=${search}&size=8`;
 
          fetch(apiEvent)
         .then((response) => response.json())
@@ -71,7 +73,8 @@ export default function CategoryPage() {
     // stort sett mye av det samme som getAttractions
     const getVenue = () => {
         const cityInfo = cityMap[city] || { name: city, countryCode: "" };
-        const apiVenue = `https://app.ticketmaster.com/discovery/v2/venues?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&city=${cityInfo.name}&countryCode=${country || cityInfo.countryCode}&locale=*&keyword=${cityInfo.name + search}&size=8`;
+        const countryCode = country || cityInfo.countryCode; 
+        const apiVenue = `https://app.ticketmaster.com/discovery/v2/venues?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&city=${cityInfo.name}&countryCode=${countryCode}&locale=*&keyword=${cityInfo.name + search}&size=8`;
 
         fetch(apiVenue)
             .then((response) => response.json())
