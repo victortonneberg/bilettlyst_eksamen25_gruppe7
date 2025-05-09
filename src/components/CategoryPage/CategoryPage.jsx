@@ -54,21 +54,13 @@ export default function CategoryPage() {
     // stort sett mye av det samme som getAttractions
     const getEvent = () => {
     const cityInfo = cityMap[city] || { name: city, countryCode: "" };
-    const apiDate = date || ""; // Bruker datoen direkte
-    const apiEvent = `https://app.ticketmaster.com/discovery/v2/events?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&city=${cityInfo.name}&segmentId=${eventMap[slug]?.id || slug}&countryCode=${country || cityInfo.countryCode}&startDateTime=${apiDate}&keyword=${search}&size=8`;
+    const apiDate = date || "";
+        const apiEvent = `https://app.ticketmaster.com/discovery/v2/events?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&city=${cityInfo.name}&segmentId=${eventMap[slug]?.id || slug}&countryCode=${country || cityInfo.countryCode}&startDateTime=${apiDate}&keyword=${search}&size=8`;
 
-    fetch(apiEvent)
+         fetch(apiEvent)
         .then((response) => response.json())
         .then((data) => {
-            if (data._embedded?.events) {
-                const formattedEvents = data._embedded.events.map((event) => ({
-                    ...event,
-                    formattedDate: formatDateForInput(event.dates.start.localDate), 
-                }));
-                setEvents(formattedEvents);
-            } else {
-                setEvents([]);
-            }
+            setEvents(data._embedded?.events || []); // Bruker data direkte uten formatering
         })
         .catch((error) => {
             console.log("Skjedde feil under lasting: ", error);
@@ -118,14 +110,9 @@ export default function CategoryPage() {
     };
 
     const handleDate = (e) => {
-    const selectedDate = e.target.value; // F.eks. "2024-09-13"
-    setDate(`${selectedDate}T00:00:00Z`); // Konverterer til "YYYY-MM-DDTHH:mm:ssZ"
+    const selectedDate = e.target.value;
+    setDate(selectedDate);
 };
-    
-
-    const formatDateForInput = (apiDate) => {
-        return apiDate.split("T")[0]; // Fjerner tid og beholder kun "YYYY-MM-DD"
-    };
 
     const handleCountry = (e) => {
         setCountry(e.target.value);
@@ -166,10 +153,10 @@ export default function CategoryPage() {
                     <option value="NO">Norge</option>
                     <option value="SE">Sverige</option>
                     <option value="US">USA</option>
-                </select>
+                </select>   
                 <p>Filtrer etter dato:</p>
                 {/* filtrerer etter date */}
-                <input type="date" value={date ? date.split("T")[0] : ""} onChange={handleDate} />
+                <input type="date"  value={date} onChange={handleDate} />
                 <p>Søk etter event, attraksjon eller spillested</p>
                 {/* tar imot input fra feltet */}
                 <input type="text" value={search} onChange={handleSearch} placeholder="Søk her"/>
