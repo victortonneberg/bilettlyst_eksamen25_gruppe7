@@ -73,7 +73,7 @@ export default function Home() {
           festivals.map((festival) => (
             <Link
               key={festival.id}
-              to={`/event/${festival.id}`}
+              to={`/events/${festival.id}`}
               className="festivalCard-Link"
             >
               <EventCard
