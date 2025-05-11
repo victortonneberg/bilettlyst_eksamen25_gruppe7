@@ -131,20 +131,18 @@ export default function EventPage() {
         )}
       </section>
       <h3>Artister</h3>
-      <section id="artistCardContainer">
-        <article id="eventArtistCard">
-          {event._embedded?.attractions?.length > 0 ? (
-            event._embedded.attractions.map((artist) => (
-              <ArtistCard
-                key={artist?.id || "Ukjent artist ID"}
-                name={artist?.name || "Ukjent artist"}
-                image={artist?.images?.[0]?.url || "Ukjent artist bilde"}
-              />
-            ))
-          ) : (
-            <p>Ingen artister funnet</p>
-          )}
-        </article>
+      <section className="festivals-grid">
+        {event._embedded?.attractions?.length > 0 ? (
+          event._embedded.attractions.map((artist) => (
+            <ArtistCard
+              key={artist?.id || "Ukjent artist ID"}
+              name={artist?.name || "Ukjent artist"}
+              image={artist?.images?.[0]?.url || "Ukjent artist bilde"}
+            />
+          ))
+        ) : (
+          <p>Ingen artister funnet</p>
+        )}
       </section>
     </>
   );

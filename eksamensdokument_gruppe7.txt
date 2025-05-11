@@ -1,6 +1,6 @@
 Må flyttes ut i rot mappe før leveranse i Inspera!!!!!
 
-Karakter vi sikter etter: X
+Karakter vi sikter etter: B
 
 Github alias:
 
@@ -16,4 +16,16 @@ Redegjørelser/forutsetninger dere gjør dersom oppgaveteksten oppleves uklar el
 
 Redegjøre for potensielle utfordringer som ikke rakk/ble klart løst
 
-Kilder til ALL dokumentasjon dere har benyttet under arbeidet med eksamen
+
+
+
+Kilder til ALL dokumentasjon dere har benyttet under arbeidet med eksamen:
+
+Kilde til "optimal font-size: https://matthewjamestaylor.com/responsive-font-size
+
+Kilde for border-hover effekt, uten at andre elementer flytter seg
+https://stackoverflow.com/questions/9612758/add-a-css-border-on-hover-without-moving-the-element
+
+Kilde for .some: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/some
+
+Kilde for conditional rendering: https://piercefrank10.medium.com/short-circuit-evaluation-conditional-rendering-a2dbc2220176

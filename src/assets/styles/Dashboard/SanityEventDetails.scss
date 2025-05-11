@@ -36,6 +36,12 @@
   }
 }
 
+.dashboard-all-events {
+  article {
+    width: calc(10% - 2rem);
+  }
+}
+
 @media (min-width: 768px) {
   .date-place,
   .genreEvent,
