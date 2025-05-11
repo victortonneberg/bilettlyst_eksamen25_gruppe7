@@ -167,8 +167,8 @@ export default function CategoryPage() {
                 {/* fetchdata slik at all input kjøres samtidig */}
                 <button type="button" onClick={fetchData}>Søk</button>
             </section>
-            <section id="categoryPage-attraksjoner">
             <h2>Attraksjoner</h2>
+            <section className="festivals-grid">
             {attractions.length > 0 ? (
                 attractions.map((attraction) => (
                 <CategoryCardAttraction
@@ -186,15 +186,15 @@ export default function CategoryPage() {
                 <p>Ingen attraksjoner funnet</p>
             )}
             </section>
-            <section id="categoryPage-arrangementer">
-                <h2>Arrangementer</h2>
+            <h2>Arrangementer</h2>
+            <section className="festivals-grid">
                 {events.length > 0 ? (
                     events.map((eventItem) => (
                         <EventCard
                             key={eventItem.id}
                             event={{
                                 id: eventItem.id,
-                                name: eventItem.name,
+                                name:eventItem.name,
                                 image: eventItem.images[0]?.url,
                                 country: eventItem._embedded?.venues[0]?.country?.name,
                                 city: eventItem._embedded?.venues[0]?.city?.name,
@@ -203,14 +203,15 @@ export default function CategoryPage() {
                             }}
                             isFavourite={favourite.includes(eventItem.id)}
                             toggleFavourite={toggleFavourite}
+                            showFavouriteButton={true}  // Legg til denne linjen
                         />
                     ))
                 ) : (
                     <p>Ingen arrangementer funnet</p>
                 )}
             </section>
-            <section id="categoryPage-spillesteder">
             <h2>Spillesteder</h2>
+            <section className="festivals-grid">
             {venue.length > 0 ? (
                 venue.map((venueItem) => (
                     <CategoryCardVenue
