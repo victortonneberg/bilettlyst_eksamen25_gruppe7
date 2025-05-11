@@ -20,7 +20,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/category/:slug" element={<CategoryPage />} />
           <Route path="/category/:slug/:id" element={<CategoryPage />} />
-          <Route path="/events/:id" element={<EventPage />} />
+          <Route path="/event/:id" element={<EventPage />} />
         </Routes>
       </Layout>
     </>
