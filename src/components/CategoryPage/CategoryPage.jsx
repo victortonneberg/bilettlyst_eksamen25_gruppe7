@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import CategoryCardAttraction from "./CategoryCardAttraction";
-import CategoryCardEvent from "./CategoryCardEvent";
+import EventCard from "../SharedComponents/EventCard";
 import CategoryCardVenue from "./CategoryCardVenue";
+import "../../assets/styles/CategoryPage/CategoryPage.scss";
 
 export default function CategoryPage() {
     const { slug } = useParams();
@@ -189,7 +190,7 @@ export default function CategoryPage() {
                 <h2>Arrangementer</h2>
                 {events.length > 0 ? (
                     events.map((eventItem) => (
-                        <CategoryCardEvent
+                        <EventCard
                             key={eventItem.id}
                             event={{
                                 id: eventItem.id,
