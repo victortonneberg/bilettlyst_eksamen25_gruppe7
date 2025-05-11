@@ -185,8 +185,8 @@ export default function CategoryPage() {
           Søk
         </button>
       </section>
-      <section id="categoryPage-attraksjoner">
-        <h2>Attraksjoner</h2>
+      <h2>Attraksjoner</h2>
+      <section className="festivals-grid">
         {attractions.length > 0 ? (
           attractions.map((attraction) => (
             <CategoryCardAttraction
@@ -204,22 +204,26 @@ export default function CategoryPage() {
           <p>Ingen attraksjoner funnet</p>
         )}
       </section>
-      <section id="categoryPage-arrangementer">
-        <h2>Arrangementer</h2>
+      <h2>Arrangementer</h2>
+      <section className="festivals-grid">
         {events.length > 0 ? (
-          events.map((eventItem) => (
-            <CategoryCardEvent
-              key={eventItem.id}
+          events.map((event) => (
+            <EventCard
+              key={event.id}
               event={{
-                id: eventItem.id,
-                name: eventItem.name,
-                image: eventItem.images[0]?.url,
-                country: eventItem._embedded?.venues[0]?.country?.name,
-                city: eventItem._embedded?.venues[0]?.city?.name,
-                date: eventItem.dates?.start?.localDate,
-                time: eventItem.dates?.start?.localTime,
+                id: event.id,
+                name: event.name,
+                image: event.images?.[0]?.url,
+                country: event._embedded?.venues[0]?.country?.name,
+                city: event._embedded?.venues[0]?.city?.name,
+                date: event.dates?.start?.localDate,
+                time: event.dates?.start?.localTime,
+                venue: event._embedded?.venues?.[0]?.name,
               }}
-              isFavourite={favourite.includes(eventItem.id)}
+              showDetails={true}
+              showVenue={true}
+              showFavouriteButton={true}
+              isFavourite={favourite.includes(event.id)}
               toggleFavourite={toggleFavourite}
             />
           ))
@@ -227,8 +231,8 @@ export default function CategoryPage() {
           <p>Ingen arrangementer funnet</p>
         )}
       </section>
-      <section id="categoryPage-spillesteder">
-        <h2>Spillesteder</h2>
+      <h2>Spillesteder</h2>
+      <section className="festivals-grid">
         {venue.length > 0 ? (
           venue.map((venueItem) => (
             <CategoryCardVenue

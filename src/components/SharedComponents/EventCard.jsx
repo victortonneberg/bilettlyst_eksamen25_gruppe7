@@ -15,9 +15,8 @@ export default function EventCard({
   toggleFavourite,
   showFestivalPassButtons = false,
   showCityDetails = false,
+  showVenue = false,
 }) {
-
-
   /* Kilde for conditional rendering: https://piercefrank10.medium.com/short-circuit-evaluation-conditional-rendering-a2dbc2220176 */
   return (
     <article className="festivalCard">
@@ -69,7 +68,6 @@ export default function EventCard({
       {/* Viser kun Sanity-data hvis prop showSanityInfo={true} */}
       {showSanityInfo && <h3>{event.title}</h3>}
 
-
       {/* Viser kun bydetaljer hvis prop showCityDetails={true} */}
       {showCityDetails && (
         <>
@@ -79,14 +77,13 @@ export default function EventCard({
         </>
       )}
 
-
-
-      
+      {showVenue && (
+        <>
+          <p>Land: {event.country}</p>
+          <p>By: {event.city}</p>
+          <p>Spillested: {event.venue}</p>
+        </>
+      )}
     </article>
-
-
-
-
-
   );
 }
