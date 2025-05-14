@@ -30,6 +30,8 @@ export default function EventCard({
           onClick={() => toggleFavourite(event.id)}
           style={{ background: "none", border: "none", cursor: "pointer" }}
         >
+           {/* https://fontawesome.com/icons/star?f=classic&s=light
+           Hentet ikon fra font awesome, den brukes og i CategoryCardAttraction og CategoryCardVenue */}
           <FontAwesomeIcon
             icon={isFavourite ? faSolidStar : faRegularStar}
             style={{ color: isFavourite ? "gold" : "black" }}
