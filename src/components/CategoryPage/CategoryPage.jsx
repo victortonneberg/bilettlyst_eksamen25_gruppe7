@@ -33,7 +33,7 @@ export default function CategoryPage() {
   const getAttractions = () => {
     // må ha med citymap for å mappe ut fra objektet
     const cityInfo = cityMap[city] || { name: city, countryCode: "" };
-    const countryCode = country || cityInfo.countryCode;
+    const countryCode = country || (cityMap[city]?.countryCode || "");
     // henter props fra eventMap og cityMap for å bruke i URL
     // har med "&keyword=${cityInfo.name + search}" og + search for å kunne søke fra søkefeltet
     // legger på size for å rendre ut færre elementer
@@ -51,10 +51,11 @@ export default function CategoryPage() {
       });
   };
 
+  
   // stort sett mye av det samme som getAttractions
  const getEvent = () => {
   const cityInfo = cityMap[city] || { name: city, countryCode: "" };
-  const countryCode = country || cityInfo.countryCode;
+  const countryCode = country || (cityMap[city]?.countryCode || "");
   const apiDate = date ? `&startDateTime=${formatDateForAPI(date)}` : "";
   const apiEvent = `https://app.ticketmaster.com/discovery/v2/events?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&city=${cityInfo.name}&segmentId=${eventMap[slug]?.id || slug}&countryCode=${countryCode}${apiDate}&keyword=${search}`;
 
@@ -72,7 +73,7 @@ export default function CategoryPage() {
   // stort sett mye av det samme som getAttractions
   const getVenue = () => {
     const cityInfo = cityMap[city] || { name: city, countryCode: "" };
-    const countryCode = country || cityInfo.countryCode;
+const countryCode = country || (cityMap[city]?.countryCode || "");
     const apiVenue = `https://app.ticketmaster.com/discovery/v2/venues?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&city=${cityInfo.name}&countryCode=${countryCode}&locale=*&keyword=${cityInfo.name + search}`;
 
     fetch(apiVenue)
@@ -113,7 +114,7 @@ export default function CategoryPage() {
     setSearch(e.target.value);
   };
 
-  const handleDate = (e) => {
+  const handleDate = (e) => { 
         setDate(e.target.value);
     };
 
