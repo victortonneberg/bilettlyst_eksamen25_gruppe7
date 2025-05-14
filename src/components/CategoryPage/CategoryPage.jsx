@@ -56,7 +56,6 @@ export default function CategoryPage() {
   const cityInfo = cityMap[city] || { name: city, countryCode: "" };
   const countryCode = country || cityInfo.countryCode;
   const apiDate = date ? `&startDateTime=${formatDateForAPI(date)}` : "";
-  
   const apiEvent = `https://app.ticketmaster.com/discovery/v2/events?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&city=${cityInfo.name}&segmentId=${eventMap[slug]?.id || slug}&countryCode=${countryCode}${apiDate}&keyword=${search}`;
 
   fetch(apiEvent)
@@ -183,6 +182,7 @@ export default function CategoryPage() {
       <h2>Attraksjoner</h2>
       <section className="festivals-grid">
         {attractions.length > 0 ? (
+          // Bruker slice for å begrense antall elementer som vises, kunne brukt $size=8 men da henter den kun 8 elementer fra APIet, nå kan man og bla søke mere enn kun 8 som kommer opp
           attractions.slice(0, 8).map((attraction) => (
             <CategoryCardAttraction
               key={attraction.id}
