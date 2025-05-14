@@ -14,7 +14,10 @@ Github repo: https://github.com/victortonneberg/bilettlyst_eksamen25_gruppe7
 
 Redegjørelser/forutsetninger dere gjør dersom oppgaveteksten oppleves uklar eller ikke setter klare rammer eller begrensninger (dere kan ta egne, velbegrunnede valg!)
 
-Redegjøre for potensielle utfordringer som ikke rakk/ble klart løst
+Redegjøre for potensielle utfordringer som ikke rakk/ble klart løst:
+
+Der det hentes data fra TicketMaster, må man ved noen tilfeller refreshe for å hente alt. I Home-komponentet kan man oppleve at det kun hentes færre enn 4 utvalgte festivaler, men ved refresh/refresher vil det hentes. 
+Ser feilmelding i console hvis ikke all data hentes. 
 
 
 
