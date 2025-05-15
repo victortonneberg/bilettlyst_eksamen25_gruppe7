@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import CategoryCardAttraction from "./CategoryCardAttraction";
-import CategoryCardVenue from "./CategoryCardVenue";
 import EventCard from "../SharedComponents/EventCard";
+import CategoryCardVenue from "./CategoryCardVenue";
+import "../../assets/styles/CategoryPage/CategoryPage.scss";
 
 export default function CategoryPage() {
-  const { slug } = useParams();
+    const { slug } = useParams();
   const [events, setEvents] = useState([]);
   const [attractions, setAttractions] = useState([]);
   const [venue, setVenue] = useState([]);
@@ -29,60 +30,67 @@ export default function CategoryPage() {
     Washington: { name: "Washington", countryCode: "US" },
   };
 
+
   const getAttractions = () => {
-    // må ha med citymap for å mappe ut fra objektet
-    const cityInfo = cityMap[city] || { name: city, countryCode: "" };
-    const countryCode = country || cityInfo.countryCode;
+      //   // må ha med citymap for å mappe ut fra objektet
+  const cityInfo = cityMap[city] || { name: city, countryCode: "" };
+  const countryCode = country || cityMap[city]?.countryCode || "";
+  const apiDate = date ? `&startDateTime=${(date)}` : "";
     // henter props fra eventMap og cityMap for å bruke i URL
     // har med "&keyword=${cityInfo.name + search}" og + search for å kunne søke fra søkefeltet
     // legger på size for å rendre ut færre elementer
-    const apiAttraction = `https://app.ticketmaster.com/discovery/v2/attractions?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&segmentId=${
-      eventMap[slug]?.id || slug
-    }&countryCode=${countryCode}&keyword=${cityInfo.name + search}&size=8`;
-    // henter data fra APIet og setter det inn i attractions state
-    fetch(apiAttraction)
-      .then((response) => response.json())
-      .then((data) => {
-        setAttractions(data?._embedded?.attractions || []);
-      })
-      // feil melding om APIet ikke blir hentet, som skjer ofte når man får kun hente 5 ganger i sekundet
-      .catch((error) => {
-        console.error("Feil ved henting av attraksjoner:", error);
-        setAttractions([]);
+  const apiEvent = `https://app.ticketmaster.com/discovery/v2/events?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&city=${cityInfo.name}&segmentId=${eventMap[slug]?.id || slug}&countryCode=${countryCode}${apiDate}&keyword=${search}`;
+  //   // henter data fra APIet og setter det inn i attractions state
+
+  fetch(apiEvent)
+    .then((response) => response.json())
+    .then((data) => {
+      const events = data._embedded?.events || [];
+      const attractionsMap = {};
+
+      // Samle unike attraksjoner fra events
+      events.forEach((event) => {
+        const eventAttractions = event._embedded?.attractions || [];
+        eventAttractions.forEach((attraction) => {
+          attractionsMap[attraction.id] = attraction;
+        });
       });
-  };
+
+      // Konverter map til array
+      const uniqueAttractions = Object.values(attractionsMap);
+      setAttractions(uniqueAttractions);
+    })
+     // feil melding om APIet ikke blir hentet, som skjer ofte når man får kun hente 5 ganger i sekundet
+    .catch((error) => {
+      console.error("Feil ved henting av attraksjoner: ", error);
+      setAttractions([]);
+    });
+};
+
 
   // stort sett mye av det samme som getAttractions
-  const getEvent = () => {
-    const cityInfo = cityMap[city] || { name: city, countryCode: "" };
-    const countryCode = country || cityInfo.countryCode;
-    const apiDate = date || "";
-    const apiEvent = `https://app.ticketmaster.com/discovery/v2/events?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&city=${
-      cityInfo.name
-    }&segmentId=${
-      eventMap[slug]?.id || slug
-    }&countryCode=${countryCode}&startDateTime=${apiDate}&keyword=${search}&size=8`;
+ const getEvent = () => {
+  const cityInfo = cityMap[city] || { name: city, countryCode: "" };
+  const countryCode = country || (cityMap[city]?.countryCode || "");
+  const apiDate = date ? `&startDateTime=${(date)}` : "";
+  const apiEvent = `https://app.ticketmaster.com/discovery/v2/events?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&city=${cityInfo.name}&segmentId=${eventMap[slug]?.id || slug}&countryCode=${countryCode}${apiDate}&keyword=${search}`;
 
-    fetch(apiEvent)
-      .then((response) => response.json())
-      .then((data) => {
-        setEvents(data._embedded?.events || []); // Bruker data direkte uten formatering
-      })
-      .catch((error) => {
-        console.log("Skjedde feil under lasting: ", error);
-        setEvents([]);
-      });
-  };
+  fetch(apiEvent)
+    .then((response) => response.json())
+    .then((data) => {
+      setEvents(data._embedded?.events || []);
+    })
+    .catch((error) => {
+      console.error("Feil ved henting av arrangementer: ", error);
+      setEvents([]);
+    });
+};
 
   // stort sett mye av det samme som getAttractions
   const getVenue = () => {
     const cityInfo = cityMap[city] || { name: city, countryCode: "" };
-    const countryCode = country || cityInfo.countryCode;
-    const apiVenue = `https://app.ticketmaster.com/discovery/v2/venues?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&city=${
-      cityInfo.name
-    }&countryCode=${countryCode}&locale=*&keyword=${
-      cityInfo.name + search
-    }&size=8`;
+const countryCode = country || (cityMap[city]?.countryCode || "");
+    const apiVenue = `https://app.ticketmaster.com/discovery/v2/venues?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&city=${cityInfo.name}&countryCode=${countryCode}&locale=*&keyword=${ search}`;
 
     fetch(apiVenue)
       .then((response) => response.json())
@@ -90,7 +98,7 @@ export default function CategoryPage() {
         setVenue(data?._embedded?.venues || []);
       })
       .catch((error) => {
-        console.error("Skjedde feil under lasting:", error);
+        console.error("Feil ved henting av spillesteder: ", error);
         setVenue([]);
       });
   };
@@ -101,6 +109,7 @@ export default function CategoryPage() {
     getEvent();
     getAttractions();
     getVenue();
+    // slug endres når den trykkes på i nav
   }, [slug]);
 
   const fetchData = () => {
@@ -114,14 +123,14 @@ export default function CategoryPage() {
     setCity(e.target.value);
   };
 
+
   const handleSearch = (e) => {
     setSearch(e.target.value);
   };
 
-  const handleDate = (e) => {
-    const selectedDate = e.target.value;
-    setDate(selectedDate);
-  };
+  const handleDate = (e) => { 
+        setDate(e.target.value);
+    };
 
   const handleCountry = (e) => {
     setCountry(e.target.value);
@@ -188,7 +197,8 @@ export default function CategoryPage() {
       <h2>Attraksjoner</h2>
       <section className="festivals-grid">
         {attractions.length > 0 ? (
-          attractions.map((attraction) => (
+          // Bruker slice for å begrense antall elementer som vises, kunne brukt $size=8 men da henter den kun 8 elementer fra APIet, nå kan man og bla søke mere enn kun 8 som kommer opp
+          attractions.slice(0, 8).map((attraction) => (
             <CategoryCardAttraction
               key={attraction.id}
               attraction={{
@@ -207,7 +217,7 @@ export default function CategoryPage() {
       <h2>Arrangementer</h2>
       <section className="festivals-grid">
         {events.length > 0 ? (
-          events.map((event) => (
+          events.slice(0, 8).map((event) => (
             <EventCard
               key={event.id}
               event={{
@@ -234,7 +244,7 @@ export default function CategoryPage() {
       <h2>Spillesteder</h2>
       <section className="festivals-grid">
         {venue.length > 0 ? (
-          venue.map((venueItem) => (
+          venue.slice(0, 8).map((venueItem) => (
             <CategoryCardVenue
               key={venueItem.id}
               venue={{
