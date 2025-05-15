@@ -89,8 +89,8 @@ export default function CategoryPage() {
   // stort sett mye av det samme som getAttractions
   const getVenue = () => {
     const cityInfo = cityMap[city] || { name: city, countryCode: "" };
-const countryCode = country || (cityMap[city]?.countryCode || "");
-    const apiVenue = `https://app.ticketmaster.com/discovery/v2/venues?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&city=${cityInfo.name}&countryCode=${countryCode}&locale=*&keyword=${ search}`;
+    const countryCode = country || (cityMap[city]?.countryCode || "");
+    const apiVenue = `https://app.ticketmaster.com/discovery/v2/venues?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&city=${cityInfo.name}&countryCode=${countryCode}&keyword=${search}`;
 
     fetch(apiVenue)
       .then((response) => response.json())
@@ -113,6 +113,10 @@ const countryCode = country || (cityMap[city]?.countryCode || "");
   }, [slug]);
 
   const fetchData = () => {
+    if (cityMap[city]?.countryCode && country && cityMap[city].countryCode !== country) {
+      alert("Valgt by og land stemmer ikke, endre i søkefeltet");
+      return
+      }
     // Kjøres kun når brukeren trykker på søkeknappen
     getEvent();
     getAttractions();
@@ -154,9 +158,14 @@ const countryCode = country || (cityMap[city]?.countryCode || "");
     setFavourite(storedFavourites);
   }, []);
 
+  const invalidCombination =
+  cityMap[city]?.countryCode && country && cityMap[city].countryCode !== country;
+
+
+  
   return (
-    <>
-      <h1>{slug}</h1>
+      <>
+        <h1>{slug}</h1>
       <section id="categoryPage-filter">
         <h3>Filtrert søk</h3>
         <p>By:</p>
@@ -251,7 +260,7 @@ const countryCode = country || (cityMap[city]?.countryCode || "");
                 id: venueItem.id,
                 name: venueItem.name,
                 city: venueItem.city?.name,
-                image: venueItem.images?.[0]?.url,
+                // image: venueItem.images?.[0]?.url,
                 country: venueItem.country?.name,
               }}
               isFavourite={favourite.includes(venueItem.id)}
