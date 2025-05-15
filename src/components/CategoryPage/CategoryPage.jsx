@@ -27,7 +27,7 @@ export default function CategoryPage() {
   const cityMap = {
     Oslo: { name: "Oslo", countryCode: "NO" },
     Stockholm: { name: "Stockholm", countryCode: "SE" },
-    Washington: { name: "Washington", countryCode: "US" },
+    Berlin: { name: "Berlin", countryCode: "DE" },
   };
 
 
@@ -90,6 +90,7 @@ export default function CategoryPage() {
  const getVenue = () => {
   const cityInfo = cityMap[city] || { name: city, countryCode: "" };
   const countryCode = country || (cityMap[city]?.countryCode || "");
+
   const apiVenue = `https://app.ticketmaster.com/discovery/v2/venues?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&city=${cityInfo.name}&countryCode=${countryCode}&keyword=${search}`;
 
   fetch(apiVenue)
@@ -178,7 +179,7 @@ export default function CategoryPage() {
         <select name="By" id="city" value={city} onChange={handleCityChange}>
           <option value="Oslo">Oslo</option>
           <option value="Stockholm">Stockholm</option>
-          <option value="Washington">Washington</option>
+          <option value="Berlin">Berlin</option>
         </select>
         <p>Filtrer etter land:</p>
         {/* har med funksjonen som endrer land */}
@@ -190,7 +191,7 @@ export default function CategoryPage() {
         >
           <option value="NO">Norge</option>
           <option value="SE">Sverige</option>
-          <option value="US">USA</option>
+          <option value="DE">Tyskland</option>
         </select>
         <p>Filtrer etter dato:</p>
         {/* filtrerer etter date */}
