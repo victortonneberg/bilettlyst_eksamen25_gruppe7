@@ -87,21 +87,26 @@ export default function CategoryPage() {
 };
 
   // stort sett mye av det samme som getAttractions
-  const getVenue = () => {
-    const cityInfo = cityMap[city] || { name: city, countryCode: "" };
-    const countryCode = country || (cityMap[city]?.countryCode || "");
-    const apiVenue = `https://app.ticketmaster.com/discovery/v2/venues?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&city=${cityInfo.name}&countryCode=${countryCode}&keyword=${search}`;
+ const getVenue = () => {
+  const cityInfo = cityMap[city] || { name: city, countryCode: "" };
+  const countryCode = country || (cityMap[city]?.countryCode || "");
+  const apiVenue = `https://app.ticketmaster.com/discovery/v2/venues?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&city=${cityInfo.name}&countryCode=${countryCode}&keyword=${search}`;
 
-    fetch(apiVenue)
-      .then((response) => response.json())
-      .then((data) => {
-        setVenue(data?._embedded?.venues || []);
-      })
-      .catch((error) => {
-        console.error("Feil ved henting av spillesteder: ", error);
-        setVenue([]);
-      });
-  };
+  fetch(apiVenue)
+    .then((response) => response.json())
+    .then((data) => {
+      const allVenues = data?._embedded?.venues || [];
+      const filteredVenues = allVenues.filter(
+        (venue) =>
+          venue.city?.name?.toLowerCase() === cityInfo.name.toLowerCase()
+      );
+      setVenue(filteredVenues);
+    })
+    .catch((error) => {
+      console.error("Feil ved henting av spillesteder: ", error);
+      setVenue([]);
+    });
+};
 
   // henter data fra APIet når komponenten laster og når slug endres
   useEffect(() => {
