@@ -30,21 +30,15 @@ export default function CategoryPage() {
     Washington: { name: "Washington", countryCode: "US" },
   };
 
-  //     // feil melding om APIet ikke blir hentet, som skjer ofte når man får kun hente 5 ganger i sekundet
-  //     .catch((error) => {
-  //       console.error("Feil ved henting av attraksjoner:", error);
-  //       setAttractions([]);
-  //     });
-  // };
 
   const getAttractions = () => {
       //   // må ha med citymap for å mappe ut fra objektet
   const cityInfo = cityMap[city] || { name: city, countryCode: "" };
   const countryCode = country || cityMap[city]?.countryCode || "";
-  const apiDate = date ? `&startDateTime=${formatDateForAPI(date)}` : "";
-   // henter props fra eventMap og cityMap for å bruke i URL
-  //   // har med "&keyword=${cityInfo.name + search}" og + search for å kunne søke fra søkefeltet
-  //   // legger på size for å rendre ut færre elementer
+  const apiDate = date ? `&startDateTime=${(date)}` : "";
+    // henter props fra eventMap og cityMap for å bruke i URL
+    // har med "&keyword=${cityInfo.name + search}" og + search for å kunne søke fra søkefeltet
+    // legger på size for å rendre ut færre elementer
   const apiEvent = `https://app.ticketmaster.com/discovery/v2/events?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&city=${cityInfo.name}&segmentId=${eventMap[slug]?.id || slug}&countryCode=${countryCode}${apiDate}&keyword=${search}`;
   //   // henter data fra APIet og setter det inn i attractions state
 
@@ -68,18 +62,17 @@ export default function CategoryPage() {
     })
      // feil melding om APIet ikke blir hentet, som skjer ofte når man får kun hente 5 ganger i sekundet
     .catch((error) => {
-      console.error("Feil ved henting av attraksjoner via events:", error);
+      console.error("Feil ved henting av attraksjoner: ", error);
       setAttractions([]);
     });
 };
 
 
-  
   // stort sett mye av det samme som getAttractions
  const getEvent = () => {
   const cityInfo = cityMap[city] || { name: city, countryCode: "" };
   const countryCode = country || (cityMap[city]?.countryCode || "");
-  const apiDate = date ? `&startDateTime=${formatDateForAPI(date)}` : "";
+  const apiDate = date ? `&startDateTime=${(date)}` : "";
   const apiEvent = `https://app.ticketmaster.com/discovery/v2/events?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&city=${cityInfo.name}&segmentId=${eventMap[slug]?.id || slug}&countryCode=${countryCode}${apiDate}&keyword=${search}`;
 
   fetch(apiEvent)
@@ -88,7 +81,7 @@ export default function CategoryPage() {
       setEvents(data._embedded?.events || []);
     })
     .catch((error) => {
-      console.error("Error fetching events:", error);
+      console.error("Feil ved henting av arrangementer: ", error);
       setEvents([]);
     });
 };
@@ -97,7 +90,7 @@ export default function CategoryPage() {
   const getVenue = () => {
     const cityInfo = cityMap[city] || { name: city, countryCode: "" };
 const countryCode = country || (cityMap[city]?.countryCode || "");
-    const apiVenue = `https://app.ticketmaster.com/discovery/v2/venues?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&city=${cityInfo.name}&countryCode=${countryCode}&locale=*&keyword=${cityInfo.name + search}`;
+    const apiVenue = `https://app.ticketmaster.com/discovery/v2/venues?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&city=${cityInfo.name}&countryCode=${countryCode}&locale=*&keyword=${ search}`;
 
     fetch(apiVenue)
       .then((response) => response.json())
@@ -105,7 +98,7 @@ const countryCode = country || (cityMap[city]?.countryCode || "");
         setVenue(data?._embedded?.venues || []);
       })
       .catch((error) => {
-        console.error("Skjedde feil under lasting:", error);
+        console.error("Feil ved henting av spillesteder: ", error);
         setVenue([]);
       });
   };
@@ -116,6 +109,7 @@ const countryCode = country || (cityMap[city]?.countryCode || "");
     getEvent();
     getAttractions();
     getVenue();
+    // slug endres når den trykkes på i nav
   }, [slug]);
 
   const fetchData = () => {
@@ -129,9 +123,6 @@ const countryCode = country || (cityMap[city]?.countryCode || "");
     setCity(e.target.value);
   };
 
-  const formatDateForAPI = (date) => {
-    return `${date}T00:00:00Z`;
-};
 
   const handleSearch = (e) => {
     setSearch(e.target.value);
