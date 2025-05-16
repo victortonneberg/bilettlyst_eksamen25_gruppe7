@@ -37,3 +37,5 @@ https://stackoverflow.com/questions/9612758/add-a-css-border-on-hover-without-mo
 Kilde for .some: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/some
 
 Kilde for conditional rendering: https://piercefrank10.medium.com/short-circuit-evaluation-conditional-rendering-a2dbc2220176
+
+I categoryPage på komponenten CategoryCardVenue valgte vi å droppe bildene fordi ganske få spillesteder hadde bilder ute, da det ser bedre ut uten
