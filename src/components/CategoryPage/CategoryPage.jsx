@@ -7,7 +7,6 @@ import "../../assets/styles/CategoryPage/CategoryPage.scss";
 
 export default function CategoryPage() {
   const { slug } = useParams();
-  const { slug } = useParams();
   const [events, setEvents] = useState([]);
   const [attractions, setAttractions] = useState([]);
   const [venue, setVenue] = useState([]);
