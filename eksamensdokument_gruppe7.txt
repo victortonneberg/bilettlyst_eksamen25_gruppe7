@@ -40,3 +40,6 @@ Kilde for .some: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Referen
 
 Kilde for conditional rendering: https://piercefrank10.medium.com/short-circuit-evaluation-conditional-rendering-a2dbc2220176
 
+Kilde for promise.all //https://www.geeksforgeeks.org/how-to-fetch-an-array-of-urls-with-promise-all/
+      
+
