@@ -19,6 +19,11 @@ Redegjøre for potensielle utfordringer som ikke rakk/ble klart løst:
 Der det hentes data fra TicketMaster, må man ved noen tilfeller refreshe for å hente alt. I Home-komponentet kan man oppleve at det kun hentes færre enn 4 utvalgte festivaler, men ved refresh/refresher vil det hentes. 
 Ser feilmelding i console hvis ikke all data hentes. 
 
+Ved henting av festivalpass på EventPage, er en utfordring av den henter basert på første ord, og ikke ord etter mellomrom. F.eks. "Tons of Rock" henter festivalpass med søkeord "Tons". 
+Prøvde en løsning som dette: const formatName = festivalName.toLowerCase().replace(/\s+/g, "-")
+Denne løsningen fungerer på alle festivaler utenom "Neon Festival". Dette fordi festivalpassene heter kun "NEON | ...pass".
+Har derfor valgt å ikke bruke formatName, som fører til at Tons of Rock henter ett feil festivalpass: "Tons of Nach: HELL AWAITS". 
+
 
 
 
