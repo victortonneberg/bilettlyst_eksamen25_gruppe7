@@ -121,8 +121,8 @@ export default function CategoryPage() {
   const fetchData = () => {
     if (cityMap[city]?.countryCode && country && cityMap[city].countryCode !== country) {
       alert("Valgt by og land stemmer ikke, endre i søkefeltet");
-      return
-      }
+      return;
+    }
     // Kjøres kun når brukeren trykker på søkeknappen
     getEvent();
     getAttractions();
@@ -167,8 +167,6 @@ export default function CategoryPage() {
     setFavourite(storedFavourites);
   }, []);
 
-  const invalidCombination =
-  cityMap[city]?.countryCode && country && cityMap[city].countryCode !== country;
 
 
   
