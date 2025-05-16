@@ -1,4 +1,3 @@
-import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar as faSolidStar } from "@fortawesome/free-solid-svg-icons";
 import { faStar as faRegularStar } from "@fortawesome/free-regular-svg-icons";
@@ -30,7 +29,7 @@ export default function EventCard({
           onClick={() => toggleFavourite(event.id)}
           style={{ background: "none", border: "none", cursor: "pointer" }}
         >
-           {/* https://fontawesome.com/icons/star?f=classic&s=light
+          {/* https://fontawesome.com/icons/star?f=classic&s=light
            Hentet ikon fra font awesome, den brukes og i CategoryCardAttraction og CategoryCardVenue */}
           <FontAwesomeIcon
             icon={isFavourite ? faSolidStar : faRegularStar}

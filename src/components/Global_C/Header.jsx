@@ -1,5 +1,5 @@
-import { Link } from "react-router-dom"
-import "../../assets/styles/Global_C/Header.scss"
+import { Link } from "react-router-dom";
+import "../../assets/styles/Global_C/Header.scss";
 
 export default function Header() {
   return (
@@ -21,10 +21,10 @@ export default function Header() {
         </ul>
         <ul className="header-min-side">
           <li>
-            <Link to="/dashboard">Min side</Link>
+            <Link to="/dashboard">Logg inn</Link>
           </li>
         </ul>
       </nav>
     </header>
-  )
+  );
 }
