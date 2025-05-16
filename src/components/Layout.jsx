@@ -1,7 +1,6 @@
-import { Link } from "react-router-dom"
-import Header from "./Global_C/Header"
-import Footer from "./Global_C/Footer"
-import "../assets/styles/style.scss"
+import Header from "./Global_C/Header";
+import Footer from "./Global_C/Footer";
+import "../assets/styles/style.scss";
 
 export default function Layout({ children }) {
   return (
@@ -10,5 +9,5 @@ export default function Layout({ children }) {
       <main>{children}</main>
       <Footer />
     </>
-  )
+  );
 }

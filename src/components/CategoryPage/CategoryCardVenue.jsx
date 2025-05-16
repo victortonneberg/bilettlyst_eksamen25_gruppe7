@@ -9,7 +9,7 @@ export default function CategoryCardVenue({
 }) {
   return (
     <article className="festivalCard">
-      <img src={venue.image} alt={"Bilde ikke funnet:  " + venue.name} />
+      {/* <img src={venue.image} alt={"Bilde ikke funnet:  " + venue.name} /> */}
       <button
         onClick={() => toggleFavourite(venue.id)}
         style={{ background: "none", border: "none", cursor: "pointer" }}

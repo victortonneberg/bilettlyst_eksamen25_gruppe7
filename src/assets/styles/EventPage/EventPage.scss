@@ -37,38 +37,3 @@
     }
   }
 }
-
-#artistCardContainer {
-  gap: 10rem;
-  justify-content: center;
-  align-items: center;
-  #eventArtistCard {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    border-radius: 5%;
-    margin: auto;
-    article {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      gap: 0.5rem;
-      flex-wrap: wrap;
-      width: auto;
-      border: 1px solid #ccc;
-      img {
-        width: 200px;
-        height: 200px;
-        object-fit: cover;
-      }
-    }
-  }
-  p {
-    margin: 0;
-    font-size: 1rem;
-    color: #000;
-    text-align: left;
-  }
-}
