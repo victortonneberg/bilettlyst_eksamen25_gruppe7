@@ -31,6 +31,8 @@ export default function Home() {
     Promise.all(promises).then((results) => {
       const successful = results.filter(Boolean);
       setFestivals(successful);
+      //https://www.geeksforgeeks.org/how-to-fetch-an-array-of-urls-with-promise-all/
+      //Sjekket kursets repository, men finner ingen annen måte å gjøre det på.
     });
   };
 
