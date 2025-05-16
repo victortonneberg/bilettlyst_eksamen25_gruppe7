@@ -17,3 +17,5 @@ Redegjørelser/forutsetninger dere gjør dersom oppgaveteksten oppleves uklar el
 Redegjøre for potensielle utfordringer som ikke rakk/ble klart løst
 
 Kilder til ALL dokumentasjon dere har benyttet under arbeidet med eksamen
+
+I categoryPage på komponenten CategoryCardVenue valgte vi å droppe bildene fordi ganske få spillesteder hadde bilder ute, da det ser bedre ut uten
