@@ -35,7 +35,7 @@ export default function CategoryPage() {
       //   // må ha med citymap for å mappe ut fra objektet
   const cityInfo = cityMap[city] || { name: city, countryCode: "" };
   const countryCode = country || cityMap[city]?.countryCode || "";
-  const apiDate = date ? `&startDateTime=${(date)}` : "";
+  const apiDate = date ? `&startDateTime=${formatDateForAPI(date)}` : "";
     // henter props fra eventMap og cityMap for å bruke i URL
     // har med "&keyword=${cityInfo.name + search}" og + search for å kunne søke fra søkefeltet
     // legger på size for å rendre ut færre elementer
@@ -72,7 +72,7 @@ export default function CategoryPage() {
  const getEvent = () => {
   const cityInfo = cityMap[city] || { name: city, countryCode: "" };
   const countryCode = country || (cityMap[city]?.countryCode || "");
-  const apiDate = date ? `&startDateTime=${(date)}` : "";
+  const apiDate = date ? `&startDateTime=${formatDateForAPI(date)}` : "";
   const apiEvent = `https://app.ticketmaster.com/discovery/v2/events?apikey=60AvIrywUE1YBzsifx3Ww1tx070LmuFq&city=${cityInfo.name}&segmentId=${eventMap[slug]?.id || slug}&countryCode=${countryCode}${apiDate}&keyword=${search}`;
 
   fetch(apiEvent)
@@ -129,6 +129,7 @@ export default function CategoryPage() {
     getVenue();
   };
 
+
   const handleCityChange = (e) => {
     setCity(e.target.value);
   };
@@ -157,6 +158,8 @@ export default function CategoryPage() {
       return updatedFavourite;
     });
   };
+
+  const formatDateForAPI = (date) => date ? `${date}T00:00:00Z` : "";
 
   useEffect(() => {
     const storedFavourites =
